@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
 import os
 
 from flask import Flask, jsonify, request
@@ -7,89 +6,138 @@ import math
 import itertools
 import flask_csv
 
+import pandas as pd
+import requests
+import json
+import time
+from dotenv import load_dotenv
+import os
+
+directory = pd.read_csv('../data/HD2024.csv')
+
+
+# In[65]:
+
+
+def search_directory(query):
+    query = query.lower()
+    term_checker = lambda row: query in row.lower() if type(row) == str else False
+
+    search_results = pd.concat([
+        directory[directory['INSTNM'].apply(term_checker)],
+        directory[directory['IALIAS'].apply(term_checker)]
+    ]).drop_duplicates().reset_index(drop=True)
+
+    return search_results
+
+
+# In[ ]:
+
+
+def search_directory_ui(query):
+    temp = search_directory(query)
+    return temp[['UNITID', 'INSTNM']].to_dict(orient='records')
+
+
+# In[76]:
+
+
+def param_string(parameters):
+    string = ''
+    for key in parameters:
+        string += '&' + str(key) + '=' + str(parameters[key])
+    return string
+
+def assemble_query(parameters):
+    url = f'https://customsearch.googleapis.com/customsearch/v1?cx={os.getenv("ENGINE_ID")}&key={os.getenv("API_KEY")}'
+    url += param_string(parameters)
+    url = url.replace(' ','+')
+    return url
+
+def send_query(query):
+    data = requests.get(query)
+    time.sleep(1)
+    if data.status_code == 200:
+        data = data.json()
+        if 'items' in data:
+            results = pd.DataFrame(data['items'])
+            results['Query'] = query
+            return results
+    else:
+        raise ValueError(f'query failed with status: {data.status_code}')
+
+
+# In[ ]:
+
+
+def retrieve_cds(unitid):
+    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+
+    query = assemble_query({
+        'siteSearch': curr_college['WEBADDR'][0],
+        'siteSearchFilter': 'i',
+        'q': 'common data set',
+        'fileType': 'pdf'
+    })
+
+    results = send_query(query)
+
+    return results[['htmlTitle', 'link']].to_dict(orient='records')
+
+
+# In[ ]:
+
+
+def frame_url(url):
+    if url is None:
+        return ''
+    else:
+        return f'<a href="{url}">View Document</a>'
+
+
+# In[ ]:
+
+
+def retrieve_propublica_summary(unitid):
+    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+    ein = curr_college['EIN'][0]
+
+    url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
+
+    data = requests.get(url).json()
+
+    df = pd.DataFrame(data['filings_with_data'])
+
+    df = df[['tax_prd_yr', 'totrevenue', 'totfuncexpns', 'totassetsend', 'totliabend', 'pdf_url']].rename({
+        'tax_prd_yr': 'Year',
+        'totrevenue': 'Total revenue',
+        'totfuncexpns': 'Total expenses',
+        'totassetsend': 'Total assets, end of year',
+        'totliabend': 'Total liabilities, end of year',
+        'pdf_url': 'Original Filing'
+    }, axis=1)
+
+    df['Original Filing'] = df['Original Filing'].apply(frame_url)
+
+    return df.to_html()
+
 
 # begin app definition
 app = Flask(__name__)
 
-# Database connection details
-database_path = os.path.join(os.path.dirname(__file__), 'database.sqlite3')
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{database_path}'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
-
-db = SQLAlchemy(app)
-
-# definition of the custom properties of this database
-class Complaints(db.Model):
-    __tablename__ = 'data'
-    
-    Case_Number = db.Column(db.Integer, primary_key=True)
-    Case_Status = db.Column(db.String)
-    Subject_Primary = db.Column(db.String)
-    Subject_Secondary = db.Column(db.String)
-    Facility_Occurred = db.Column(db.String)
-    Facility_Received = db.Column(db.String)
-    Received_Date = db.Column(db.String)
-    Due_Date = db.Column(db.String)
-    Latest_Status_Date = db.Column(db.String)
-    Status_Reasons = db.Column(db.String)
-    City = db.Column(db.String)
-    State = db.Column(db.String)
-
-    def return_fields(complaint):
-        return ['Case_Number',
-                'Case_Status',
-                'Subject_Primary',
-                'Subject_Secondary',
-                'Facility_Occurred',
-                'Facility_Received',
-                'Received_Date',
-                'Due_Date',
-                'Latest_Status_Date',
-                'Status_Reasons',
-                'City',
-                'State']
-
 # no modification required beyond function name
-@app.route('/complaints')
+@app.route('/search')
 def complaint():
-    # read in request arguments, default to preset values if not present
-    show = int(request.args['show']) if 'show' in request.args else 20
-    page = int(request.args['page']) if 'page' in request.args else 0
-    data_format = request.args['format'] if 'format' in request.args else 'json'
 
-    segment_start = page*show
-    segment_end = segment_start+show
+    query = request.args['q']
 
-    # clone all the other arguments into a dictionary by which to filter the data
-    entry_filter = request.args.copy()
-    entry_filter.pop('show',None)
-    entry_filter.pop('page',None)
-    entry_filter.pop('cols',None)
-    entry_filter.pop('format',None)
-
-    if bool(entry_filter):
-        displayed_entries = Complaints.query.filter_by(**entry_filter)[segment_start:segment_end]
-    else:
-        displayed_entries = Complaints.query.limit(segment_end*2).all()[segment_start:segment_end]
-
-    if 'cols' in request.args:
-        displayed_cases = [{var:getattr(entry,var) for var in request.args['cols'].split(',')} for entry in displayed_entries]
-    else:
-        displayed_cases = [{var:getattr(entry,var) for var in entry.return_fields()} for entry in displayed_entries]
+    autocomps = search_directory_ui(query)
 
     result = {
-        'metadata':{
-            'results_shown':len(displayed_cases),
-            'current_page':page
-        },
-        'cases':displayed_cases,
+        'completions': autocomps
     }
 
-    if data_format == 'csv':
-        response = flask_csv.send_csv(displayed_cases,f'inmate-complaints_{dict_flatten(request.args)}.csv',displayed_cases[0].keys())
-    else:
-        response = jsonify(result)
+    response = jsonify(result)
     
     response.headers.add('Access-Control-Allow-Origin', '*')
 
