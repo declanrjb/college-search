@@ -127,7 +127,7 @@ app = Flask(__name__)
 
 # no modification required beyond function name
 @app.route('/search')
-def complaint():
+def search():
 
     query = request.args['q']
 
