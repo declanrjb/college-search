@@ -11,7 +11,7 @@ import json
 import time
 from dotenv import load_dotenv
 
-directory = pd.read_csv('../data/HD2024.csv')
+directory = pd.read_csv('data/HD2024.csv')
 
 
 # In[65]:
@@ -137,6 +137,32 @@ def search():
 
     response = jsonify(result)
     
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/cds')
+def cds():
+    unitid = request.args['unitid']
+
+    cds_records = retrieve_cds(unitid)
+
+    result = {
+        'cds': cds_records
+    }
+
+    response = jsonify(result)
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/propublica')
+def propublica():
+    unitid = request.args['unitid']
+
+    response = retrieve_propublica_summary(unitid)
+
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
