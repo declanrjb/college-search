@@ -12,6 +12,7 @@ import time
 from dotenv import load_dotenv
 
 directory = pd.read_csv('data/HD2024.csv')
+directory['UNITID'] = directory['UNITID'].apply(lambda x: str(x))
 
 # In[65]:
 
