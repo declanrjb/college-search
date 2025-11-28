@@ -4,14 +4,12 @@ import os
 from flask import Flask, jsonify, request
 import math
 import itertools
-import flask_csv
 
 import pandas as pd
 import requests
 import json
 import time
 from dotenv import load_dotenv
-import os
 
 directory = pd.read_csv('../data/HD2024.csv')
 

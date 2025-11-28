@@ -2,3 +2,5 @@ flask
 gunicorn
 Flask-CSV
 pandas
+requests
+dotenv
