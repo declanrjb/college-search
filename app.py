@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 
 directory = pd.read_csv('data/HD2024.csv')
 
-
 # In[65]:
 
 
@@ -69,7 +68,7 @@ def send_query(query):
 
 
 def retrieve_cds(unitid):
-    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'].apply(lambda x: str(x)) == unitid].reset_index(drop=True)
 
     query = assemble_query({
         'siteSearch': curr_college['WEBADDR'][0],
@@ -97,7 +96,7 @@ def frame_url(url):
 
 
 def retrieve_propublica_summary(unitid):
-    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'].apply(lambda x: str(x)) == unitid].reset_index(drop=True)
     ein = curr_college['EIN'][0]
 
     url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
