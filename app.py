@@ -62,7 +62,7 @@ def send_query(query):
         raise ValueError(f'query failed with status: {data.status_code}')
 
 def retrieve_cds(unitid):
-    curr_college = directory[directory['UNITID'].apply(lambda x: str(x)) == unitid].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
 
     query = assemble_query({
         'siteSearch': curr_college['WEBADDR'][0],
@@ -83,32 +83,26 @@ def frame_url(url):
 
 def retrieve_propublica_summary(unitid):
     curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
-    # ein = curr_college['EIN'][0]
+    ein = curr_college['EIN'][0]
 
-    # url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
+    url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
 
-    # data = requests.get(url).json()
+    data = requests.get(url).json()
 
-    # df = pd.DataFrame(data['filings_with_data'])
+    df = pd.DataFrame(data['filings_with_data'])
 
-    # df = df[['tax_prd_yr', 'totrevenue', 'totfuncexpns', 'totassetsend', 'totliabend', 'pdf_url']].rename({
-    #     'tax_prd_yr': 'Year',
-    #     'totrevenue': 'Total revenue',
-    #     'totfuncexpns': 'Total expenses',
-    #     'totassetsend': 'Total assets, end of year',
-    #     'totliabend': 'Total liabilities, end of year',
-    #     'pdf_url': 'Original Filing'
-    # }, axis=1)
+    df = df[['tax_prd_yr', 'totrevenue', 'totfuncexpns', 'totassetsend', 'totliabend', 'pdf_url']].rename({
+        'tax_prd_yr': 'Year',
+        'totrevenue': 'Total revenue',
+        'totfuncexpns': 'Total expenses',
+        'totassetsend': 'Total assets, end of year',
+        'totliabend': 'Total liabilities, end of year',
+        'pdf_url': 'Original Filing'
+    }, axis=1)
 
-    # df['Original Filing'] = df['Original Filing'].apply(frame_url)
+    df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
-    result = {
-        'unitid': unitid,
-        'sampleUniDir': list(directory['UNITID'][0:10]),
-        'resultsLen': len(curr_college)
-    }
-
-    return result
+    return df.to_html()
 
 
 # begin app definition
@@ -154,9 +148,9 @@ def propublica():
 
     response = retrieve_propublica_summary(unitid)
 
-    response = jsonify(response)
+    # response = jsonify(response)
 
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
