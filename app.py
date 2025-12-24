@@ -11,11 +11,16 @@ import json
 import time
 from dotenv import load_dotenv
 
+import pandas as pd
+import requests
+import json
+import time
+from dotenv import load_dotenv
+import os
+from bs4 import BeautifulSoup
+import mimetypes
+
 directory = pd.read_csv('data/HD2024.csv')
-directory['UNITID'] = directory['UNITID'].apply(lambda x: str(x))
-
-# In[65]:
-
 
 def search_directory(query):
     query = query.lower()
@@ -28,17 +33,9 @@ def search_directory(query):
 
     return search_results
 
-
-# In[ ]:
-
-
 def search_directory_ui(query):
     temp = search_directory(query)
     return temp[['UNITID', 'INSTNM', 'STABBR']].to_dict(orient='records')
-
-
-# In[76]:
-
 
 def param_string(parameters):
     string = ''
@@ -64,10 +61,6 @@ def send_query(query):
     else:
         raise ValueError(f'query failed with status: {data.status_code}')
 
-
-# In[ ]:
-
-
 def retrieve_cds(unitid):
     curr_college = directory[directory['UNITID'].apply(lambda x: str(x)) == unitid].reset_index(drop=True)
 
@@ -82,22 +75,14 @@ def retrieve_cds(unitid):
 
     return results[['htmlTitle', 'link']].to_dict(orient='records')
 
-
-# In[ ]:
-
-
 def frame_url(url):
     if url is None:
         return ''
     else:
         return f'<a href="{url}">View Document</a>'
-
-
-# In[ ]:
-
-
+        
 def retrieve_propublica_summary(unitid):
-    curr_college = directory[directory['UNITID'].apply(lambda x: str(x)) == unitid].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
     ein = curr_college['EIN'][0]
 
     url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
@@ -163,7 +148,7 @@ def propublica():
 
     response = retrieve_propublica_summary(unitid)
 
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
