@@ -82,7 +82,7 @@ def frame_url(url):
         return f'<a href="{url}">View Document</a>'
 
 def retrieve_propublica_summary(unitid):
-    # curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
     # ein = curr_college['EIN'][0]
 
     # url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
@@ -102,7 +102,13 @@ def retrieve_propublica_summary(unitid):
 
     # df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
-    return directory.to_html()
+    result = {
+        'unitid': unitid,
+        'searchResult': str(curr_college),
+        'dtypes': str(directory.dtypes)
+    }
+
+    return result
 
 
 # begin app definition
@@ -148,7 +154,9 @@ def propublica():
 
     response = retrieve_propublica_summary(unitid)
 
-    # response.headers.add('Access-Control-Allow-Origin', '*')
+    response = jsonify(response)
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
