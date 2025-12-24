@@ -1,0 +1,55 @@
+column {
+    float: left;
+    min-height: 100px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.interface-main {
+    margin: 20px;
+}
+
+.search-box {
+    height: 40px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid black;
+}
+
+#left-col {
+    width: 30%;
+}
+
+#right-col {
+    width: 70%;
+}
+
+.college-search-input {
+    width: 80%;
+    height: calc(100% - 5px);
+    font-size: 1.5em;
+    border: none;
+    outline: none;
+    float: left;
+}
+
+.search-button {
+    color: black;
+    float: left;
+    font-size: 1.2em;
+    margin-left: 20px;
+    padding: 10px;
+    float: right;
+}
+
+.completion {
+    font-size: 1.2em;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.completion:hover {
+    box-shadow: 0 1px 5px #666666bd;
+}

@@ -34,7 +34,7 @@ def search_directory(query):
 
 def search_directory_ui(query):
     temp = search_directory(query)
-    return temp[['UNITID', 'INSTNM']].to_dict(orient='records')
+    return temp[['UNITID', 'INSTNM', 'STABBR']].to_dict(orient='records')
 
 
 # In[76]:
