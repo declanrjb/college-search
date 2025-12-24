@@ -1,5 +1,8 @@
 
 function loadFinPosition(unitid) {
+
+    $('#propublica .data-holder').empty()
+
     var query = 'https://college-search.onrender.com/propublica?unitid=' + unitid;
 
     console.log('sending fin position...')
@@ -12,7 +15,26 @@ function loadFinPosition(unitid) {
     )
 }
 
+function loadOfficers(unitid) {
+
+    $('#officers .data-holder').empty()
+
+    var query = 'https://college-search.onrender.com/officers?unitid=' + unitid;
+
+    console.log('sending fin position...')
+
+    $.get(query, 
+        function(data) {
+            $('#officers .data-holder').html(data['data']);
+
+        }
+    )
+}
+
 function loadCds(unitid) {
+
+    $('#cds-list').empty()
+
     var query = 'https://college-search.onrender.com/cds?unitid=' + unitid;
 
     console.log('sending cds...')
@@ -24,7 +46,11 @@ function loadCds(unitid) {
             var candDocs = data['data']['documents']
             for (var i=0; i<candDocs.length; i++) {
                 doc = candDocs[i]
-                $('#cds .data-holder').append(doc['htmlTitle']);
+                $('#cds-list').append(
+                    `<li><a href="LINK">NAME</a></li>`
+                    .replace('LINK', doc['link'])
+                    .replace('NAME', doc['htmlTitle'])
+                );
             }
 
         }
@@ -34,6 +60,7 @@ function loadCds(unitid) {
 function loadData(unitid) {
     loadFinPosition(unitid)
     loadCds(unitid)
+    loadOfficers(unitid)
 }
 
 $(function() {
@@ -59,6 +86,9 @@ $(function() {
     })
 
     $('.search-button').on('click', function() {
+
+        /* clear the previous completions */
+        $('.completions-holder').empty();
 
         var query = 'https://college-search.onrender.com/search?q=' + $('.college-search-input').val();
 
