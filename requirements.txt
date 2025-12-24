@@ -4,3 +4,4 @@ Flask-CSV
 pandas
 requests
 dotenv
+bs4
