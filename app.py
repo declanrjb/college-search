@@ -63,9 +63,22 @@ def send_query(query):
 
 def retrieve_cds(unitid):
     curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
+    domain = curr_college['WEBADDR'][0]
+
+    # identify cds homepage
+    query = assemble_query({
+        'siteSearch': domain,
+        'siteSearchFilter': 'i',
+        'q': 'common data set'
+    })
+
+    results = send_query(query)
+    cds_homepage = results['link'][0]
+
+    # identify possible cds documents
 
     query = assemble_query({
-        'siteSearch': curr_college['WEBADDR'][0],
+        'siteSearch': domain,
         'siteSearchFilter': 'i',
         'q': 'common data set',
         'fileType': 'pdf'
@@ -73,7 +86,12 @@ def retrieve_cds(unitid):
 
     results = send_query(query)
 
-    return results[['htmlTitle', 'link']].to_dict(orient='records')
+    results = results[results['title'].apply(lambda x: 'common' in x.lower())]
+
+    return {
+        'homepage': cds_homepage,
+        'documents': results[['htmlTitle', 'link']].to_json(orient='records')
+    }
 
 def frame_url(url):
     if url is None:
