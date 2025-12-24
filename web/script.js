@@ -13,13 +13,14 @@ function loadFinPosition(unitid) {
 }
 
 function loadCds(unitid) {
-    var query = 'https://college-search.onrender.com/propublica?unitid=' + unitid;
+    var query = 'https://college-search.onrender.com/cds?unitid=' + unitid;
 
-    console.log('sending fin position...')
+    console.log('sending cds...')
 
     $.get(query, 
         function(data) {
-            $('#propublica .data-holder').html(data['data']);
+            console.log(data['data'])
+            $('#cds-homepage').text(data['data']['homepage']).attr('href', data['data']['homepage'])
 
         }
     )
