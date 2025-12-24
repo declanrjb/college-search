@@ -104,7 +104,7 @@ def retrieve_propublica_summary(unitid):
 
     result = {
         'unitid': unitid,
-        'sampleUniDir': directory['UNITID'][0:10]
+        'sampleUniDir': list(directory['UNITID'][0:10])
     }
 
     return result
