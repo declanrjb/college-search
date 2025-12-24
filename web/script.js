@@ -14,6 +14,20 @@ function loadData(unitid) {
 
 $(function() {
 
+    console.log($('.subsection-header'))
+
+    $('.subsection-header').on('click', function(e) {
+        if (e.currentTarget.getAttribute('open') == 'false') {
+            $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block')
+            e.currentTarget.setAttribute('open', 'true')
+            $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down')
+        } else {
+            $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none')
+            e.currentTarget.setAttribute('open', 'false')
+            $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-right')
+        }
+    })
+
     $('.search-button').on('click', function() {
 
         var query = 'https://college-search.onrender.com/search?q=' + $('.college-search-input').val();

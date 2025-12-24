@@ -68,3 +68,32 @@ column {
     background-color: black;
     border: none;
 }
+
+tr {
+    border-bottom: 1px solid lightgrey;
+}
+
+tr:hover {
+    background-color: lightblue !important;
+}
+
+td, th {
+    padding: 10px;
+}
+
+th {
+    padding-bottom: 5px;
+    background-color: white !important;
+}
+
+.data-holder {
+    display: none;
+}
+
+.data-holder table {
+    width: 100%;
+    text-align: left;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    border-collapse: collapse;
+}
