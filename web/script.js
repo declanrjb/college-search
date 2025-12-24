@@ -4,7 +4,7 @@ function loadData(unitid) {
 
     console.log('sending...')
 
-    $.getJSON(query, 
+    $.get(query, 
         function(data) {
             console.log(data);
         }

@@ -102,7 +102,9 @@ def retrieve_propublica_summary(unitid):
 
     df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
-    return df.to_html()
+    return {
+        'data': df.to_html()
+    }
 
 
 # begin app definition
@@ -148,9 +150,9 @@ def propublica():
 
     response = retrieve_propublica_summary(unitid)
 
-    # response = jsonify(response)
+    response = jsonify(response)
 
-    # response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
