@@ -103,7 +103,7 @@ def retrieve_propublica_summary(unitid):
     df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
     return {
-        'data': df.to_html()
+        'data': df.to_html(index=False, escape=False)
     }
 
 

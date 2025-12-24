@@ -6,7 +6,8 @@ function loadData(unitid) {
 
     $.get(query, 
         function(data) {
-            console.log(data);
+            $('#propublica .data-holder').html(data['data']);
+
         }
     )
 }
