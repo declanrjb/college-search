@@ -1,8 +1,8 @@
 
-function loadData(unitid) {
+function loadFinPosition(unitid) {
     var query = 'https://college-search.onrender.com/propublica?unitid=' + unitid;
 
-    console.log('sending...')
+    console.log('sending fin position...')
 
     $.get(query, 
         function(data) {
@@ -10,6 +10,24 @@ function loadData(unitid) {
 
         }
     )
+}
+
+function loadCds(unitid) {
+    var query = 'https://college-search.onrender.com/propublica?unitid=' + unitid;
+
+    console.log('sending fin position...')
+
+    $.get(query, 
+        function(data) {
+            $('#propublica .data-holder').html(data['data']);
+
+        }
+    )
+}
+
+function loadData(unitid) {
+    loadFinPosition(unitid)
+    loadCds(unitid)
 }
 
 $(function() {

@@ -153,7 +153,7 @@ def cds():
     cds_records = retrieve_cds(unitid)
 
     result = {
-        'cds': cds_records
+        'data': cds_records
     }
 
     response = jsonify(result)
