@@ -80,29 +80,29 @@ def frame_url(url):
         return ''
     else:
         return f'<a href="{url}">View Document</a>'
-        
+
 def retrieve_propublica_summary(unitid):
-    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
-    ein = curr_college['EIN'][0]
+    # curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
+    # ein = curr_college['EIN'][0]
 
-    url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
+    # url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
 
-    data = requests.get(url).json()
+    # data = requests.get(url).json()
 
-    df = pd.DataFrame(data['filings_with_data'])
+    # df = pd.DataFrame(data['filings_with_data'])
 
-    df = df[['tax_prd_yr', 'totrevenue', 'totfuncexpns', 'totassetsend', 'totliabend', 'pdf_url']].rename({
-        'tax_prd_yr': 'Year',
-        'totrevenue': 'Total revenue',
-        'totfuncexpns': 'Total expenses',
-        'totassetsend': 'Total assets, end of year',
-        'totliabend': 'Total liabilities, end of year',
-        'pdf_url': 'Original Filing'
-    }, axis=1)
+    # df = df[['tax_prd_yr', 'totrevenue', 'totfuncexpns', 'totassetsend', 'totliabend', 'pdf_url']].rename({
+    #     'tax_prd_yr': 'Year',
+    #     'totrevenue': 'Total revenue',
+    #     'totfuncexpns': 'Total expenses',
+    #     'totassetsend': 'Total assets, end of year',
+    #     'totliabend': 'Total liabilities, end of year',
+    #     'pdf_url': 'Original Filing'
+    # }, axis=1)
 
-    df['Original Filing'] = df['Original Filing'].apply(frame_url)
+    # df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
-    return df.to_html()
+    return directory.to_html()
 
 
 # begin app definition
