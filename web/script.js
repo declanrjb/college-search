@@ -21,6 +21,11 @@ function loadCds(unitid) {
         function(data) {
             console.log(data['data'])
             $('#cds-homepage').text(data['data']['homepage']).attr('href', data['data']['homepage'])
+            var candDocs = data['data']['documents']
+            for (var i=0; i<candDocs.length; i++) {
+                doc = candDocs[i]
+                $('#cds .data-holder').append(doc['htmlTitle']);
+            }
 
         }
     )

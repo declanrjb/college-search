@@ -90,7 +90,7 @@ def retrieve_cds(unitid):
 
     return {
         'homepage': cds_homepage,
-        'documents': results[['htmlTitle', 'link']].to_json(orient='records')
+        'documents': results[['htmlTitle', 'link']].to_dict(orient='records')
     }
 
 def frame_url(url):
