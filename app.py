@@ -82,7 +82,7 @@ def frame_url(url):
         return f'<a href="{url}">View Document</a>'
 
 def retrieve_propublica_summary(unitid):
-    curr_college = directory[directory['UNITID'] == str(unitid)].reset_index(drop=True)
+    curr_college = directory[directory['UNITID'] == unitid].reset_index(drop=True)
     # ein = curr_college['EIN'][0]
 
     # url = f'https://projects.propublica.org/nonprofits/api/v2/organizations/{ein}.json'
@@ -104,8 +104,7 @@ def retrieve_propublica_summary(unitid):
 
     result = {
         'unitid': unitid,
-        'searchResult': str(curr_college),
-        'dtypes': str(directory.dtypes)
+        'sampleUniDir': directory['UNITID'][0:10]
     }
 
     return result
