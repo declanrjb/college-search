@@ -143,7 +143,7 @@ def search():
 
 @app.route('/cds')
 def cds():
-    unitid = request.args['unitid']
+    unitid = int(request.args['unitid'])
 
     cds_records = retrieve_cds(unitid)
 
@@ -159,7 +159,7 @@ def cds():
 
 @app.route('/propublica')
 def propublica():
-    unitid = request.args['unitid']
+    unitid = int(request.args['unitid'])
 
     response = retrieve_propublica_summary(unitid)
 

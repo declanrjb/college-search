@@ -53,3 +53,18 @@ column {
 .completion:hover {
     box-shadow: 0 1px 5px #666666bd;
 }
+
+.subsection-title {
+    font-weight: 550;
+    margin-bottom: 5px;
+}
+
+#subsec-arrow {
+    margin-right: 5px;
+}
+
+.subsection hr {
+    height: 2px;
+    background-color: black;
+    border: none;
+}
