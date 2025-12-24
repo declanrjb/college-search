@@ -86,10 +86,6 @@ th {
     background-color: white !important;
 }
 
-.data-holder {
-    display: none;
-}
-
 .data-holder table {
     width: 100%;
     text-align: right;

@@ -38,16 +38,22 @@ function loadData(unitid) {
 
 $(function() {
 
-    console.log($('.subsection-header'))
+    /* set open and close states initially */
+    $('.subsection[open="false"] .data-holder').css('display', 'none')
+    $('.subsection[open="false"] #subsec-arrow').attr('class', 'fa-solid fa-caret-right')
 
+    $('.subsection[open="true"] .data-holder').css('display', 'block')
+    $('.subsection[open="true"] #subsec-arrow').attr('class', 'fa-solid fa-caret-down')
+
+    /* set up open and close click function */
     $('.subsection-header').on('click', function(e) {
-        if (e.currentTarget.getAttribute('open') == 'false') {
+        if (e.currentTarget.parentElement.getAttribute('open') == 'false') {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block')
-            e.currentTarget.setAttribute('open', 'true')
+            e.currentTarget.parentElement.setAttribute('open', 'true')
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down')
         } else {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none')
-            e.currentTarget.setAttribute('open', 'false')
+            e.currentTarget.parentElement.setAttribute('open', 'false')
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-right')
         }
     })

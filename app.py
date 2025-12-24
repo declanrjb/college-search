@@ -20,10 +20,12 @@ import os
 from bs4 import BeautifulSoup
 import mimetypes
 
+from io import StringIO
+
 directory = pd.read_csv('data/HD2024.csv')
 
 def search_directory(query):
-    query = query.lower()
+    query = query.lower().strip()
     term_checker = lambda row: query in row.lower() if type(row) == str else False
 
     search_results = pd.concat([
@@ -124,6 +126,28 @@ def retrieve_propublica_summary(unitid):
         'data': df.to_html(index=False, escape=False)
     }
 
+def retrieve_top_officers(unitid):
+    curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
+    ein = curr_college['EIN'][0]
+
+    url = f'https://projects.propublica.org/nonprofits/organizations/{ein}'
+
+    soup = BeautifulSoup(requests.get(url).text)
+
+    table = soup.select('.employees')
+    df = pd.read_html(StringIO(str(table)))[0]
+    df = df[df['Key Employees and Officers'].apply(lambda x: 'See filing' not in x)]
+
+    name_pos_splits = df['Key Employees and Officers'].apply(lambda x: x.split('('))
+    df['Name'] = name_pos_splits.apply(lambda lst: lst[0].strip())
+    df['Position'] = name_pos_splits.apply(lambda lst: lst[1].replace(')', '').strip())
+
+    df = df[['Name', 'Position', 'Compensation', 'Related', 'Other']]
+
+    return {
+        'data': df.to_html(index=False, escape=False)
+    }
+
 
 # begin app definition
 app = Flask(__name__)
@@ -167,6 +191,18 @@ def propublica():
     unitid = int(request.args['unitid'])
 
     response = retrieve_propublica_summary(unitid)
+
+    response = jsonify(response)
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/officers')
+def officers():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_top_officers(unitid)
 
     response = jsonify(response)
 
