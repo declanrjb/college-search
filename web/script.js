@@ -15,6 +15,22 @@ function loadFinPosition(unitid) {
     )
 }
 
+function loadAdmissions(unitid) {
+
+    $('#admissions .data-holder').empty()
+
+    var query = 'https://college-search.onrender.com/admissions?unitid=' + unitid;
+
+    console.log('sending admissions stats...')
+
+    $.get(query, 
+        function(data) {
+            $('#admissions .data-holder').html(data['data']);
+
+        }
+    )
+}
+
 function loadOfficers(unitid) {
 
     $('#officers .data-holder').empty()
@@ -61,6 +77,7 @@ function loadData(unitid) {
     loadFinPosition(unitid)
     loadCds(unitid)
     loadOfficers(unitid)
+    loadAdmissions(unitid)
 }
 
 $(function() {

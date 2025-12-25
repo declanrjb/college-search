@@ -14,7 +14,7 @@ df <- adm_files |>
   do.call(rbind, .)
 
 df <- df |>
-  arrange(UNITID, YEAR)
+  arrange(UNITID, desc(YEAR))
 
 df <- df |>
   mutate(ADM_RATE = ADMSSN / APPLCN,
