@@ -148,6 +148,13 @@ def retrieve_top_officers(unitid):
         'data': df.to_html(index=False, escape=False)
     }
 
+def retrieve_admissions_stats(unitid):
+    adm_data = pd.read_csv('data/admissions.csv')
+    adm_data = adm_data[adm_data['UNITID'].apply(lambda x: x == unitid)]
+    adm_data = adm_data.drop('UNITID', axis=1)
+    return {
+        'data': adm_data.to_html(index=False, escape=False)
+    }
 
 # begin app definition
 app = Flask(__name__)
@@ -165,7 +172,6 @@ def search():
     }
 
     response = jsonify(result)
-    
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
@@ -181,7 +187,6 @@ def cds():
     }
 
     response = jsonify(result)
-
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
@@ -193,7 +198,6 @@ def propublica():
     response = retrieve_propublica_summary(unitid)
 
     response = jsonify(response)
-
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
@@ -205,7 +209,17 @@ def officers():
     response = retrieve_top_officers(unitid)
 
     response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
+    return response
+
+@app.route('/admissions')
+def admissions():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_admissions_stats(unitid)
+
+    response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
