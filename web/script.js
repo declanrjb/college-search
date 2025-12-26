@@ -1,50 +1,20 @@
+function loadSection(unitid, section) {
+    if (section == 'cds') {
+        loadCds(unitid)
+    } else {
+        var dataHolderId = '#' + section + ' .data-holder'
 
-function loadFinPosition(unitid) {
-
-    $('#propublica .data-holder').empty()
-
-    var query = 'https://college-search.onrender.com/propublica?unitid=' + unitid;
-
-    console.log('sending fin position...')
-
-    $.get(query, 
-        function(data) {
-            $('#propublica .data-holder').html(data['data']);
-
-        }
-    )
-}
-
-function loadAdmissions(unitid) {
-
-    $('#admissions .data-holder').empty()
-
-    var query = 'https://college-search.onrender.com/admissions?unitid=' + unitid;
-
-    console.log('sending admissions stats...')
-
-    $.get(query, 
-        function(data) {
-            $('#admissions .data-holder').html(data['data']);
-
-        }
-    )
-}
-
-function loadOfficers(unitid) {
-
-    $('#officers .data-holder').empty()
-
-    var query = 'https://college-search.onrender.com/officers?unitid=' + unitid;
-
-    console.log('sending fin position...')
-
-    $.get(query, 
-        function(data) {
-            $('#officers .data-holder').html(data['data']);
-
-        }
-    )
+        $(dataHolderId).empty()
+        var query = 'https://college-search.onrender.com/' + section + '?unitid=' + unitid;
+    
+        console.log('sending ' + section)
+    
+        $.get(query, 
+            function(data) {
+                $(dataHolderId).html(data['data']);
+            }
+        )
+    }
 }
 
 function loadCds(unitid) {
@@ -74,13 +44,15 @@ function loadCds(unitid) {
 }
 
 function loadData(unitid) {
-    loadFinPosition(unitid)
+    // loadSection(unitid, 'propublica')
+    // loadSection(unitid, 'officers')
+    // loadSection(unitid, 'admissions')
     loadCds(unitid)
-    loadOfficers(unitid)
-    loadAdmissions(unitid)
 }
 
 $(function() {
+
+    var unitid;
 
     /* set open and close states initially */
     $('.subsection[open="false"] .data-holder').css('display', 'none')
@@ -95,6 +67,8 @@ $(function() {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block')
             e.currentTarget.parentElement.setAttribute('open', 'true')
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down')
+
+            loadSection(unitid, e.currentTarget.parentElement.getAttribute('id'))
         } else {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none')
             e.currentTarget.parentElement.setAttribute('open', 'false')
@@ -110,8 +84,6 @@ $(function() {
         var query = 'https://college-search.onrender.com/search?q=' + $('.college-search-input').val();
 
         console.log('sending...')
-
-        var unitid;
 
         $.getJSON(query, 
             function(data) {
@@ -135,7 +107,7 @@ $(function() {
                     $('.college-search-input').val(e.currentTarget.textContent.trim());
                     $('.completions-holder').empty();
                     console.log(unitid)
-                    loadData(unitid);
+                    //loadData(unitid);
                 })
             }
         )

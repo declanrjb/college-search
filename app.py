@@ -22,6 +22,8 @@ import mimetypes
 
 from io import StringIO
 
+from serpapi import GoogleSearch
+
 directory = pd.read_csv('data/HD2024.csv')
 
 def search_directory(query):
@@ -156,6 +158,23 @@ def retrieve_admissions_stats(unitid):
         'data': adm_data.to_html(index=False, escape=False)
     }
 
+def retrieve_recent_news(unitid):
+
+    college_name = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index()['INSTNM'][0]
+
+    params = {
+        "api_key": os.getenv('SERP_API'),
+        "engine": "google_news",
+        "hl": "en",
+        "gl": "us",
+        "q": college_name
+    }
+
+    search = GoogleSearch(params)
+    results = search.get_dict()
+
+    return results
+
 # begin app definition
 app = Flask(__name__)
 
@@ -218,6 +237,17 @@ def admissions():
     unitid = int(request.args['unitid'])
 
     response = retrieve_admissions_stats(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/news')
+def news():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_top_officers(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
