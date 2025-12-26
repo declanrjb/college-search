@@ -65,7 +65,7 @@ function loadNews(unitid) {
                     <a href="LINK"><div class="news-article">
                         <img class="thumbnail" src="IMG_SRC">
                         <h3 class="headline">HEADLINE</h3>
-                        <p class="byline"><span class="reporter">REPORTER</span>, <i><span class="publication">OUTLET</span></i></p>
+                        <p class="byline"><span class="reporter">REPORTER</span><i><span class="publication">OUTLET</span></i></p>
                         <hr>
                         <p class="date">PUBDATE</p>
                     </div></a>
@@ -75,6 +75,7 @@ function loadNews(unitid) {
                     .replace('OUTLET', article['source']['name'])
                     .replace('PUBDATE', article['date'])
                     .replace('LINK', article['link'])
+                    .replace('REPORTER', article['author'])
                 );
             }
 

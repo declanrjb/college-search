@@ -160,7 +160,9 @@ def retrieve_admissions_stats(unitid):
 
 def clean_news_article(article):
     if 'authors' in article['source']:
-        article['author'] = ', '.join(article['source']['authors'])
+        article['author'] = ', '.join(article['source']['authors']) + ', '
+    else:
+        article['author'] = ''
     article['date'] = article['date'].split(',')[0]
     return article
 
