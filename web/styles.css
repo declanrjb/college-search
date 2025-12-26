@@ -93,3 +93,27 @@ th {
     font-size: 14px;
     border-collapse: collapse;
 }
+
+.news-article {
+    width: calc(33% - 20px);
+    margin: 10px;
+    float: left;
+}
+
+.thumbnail {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.headline {
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+.byline {
+    margin: 0px;
+}
+
+.date {
+    margin-top: 5px;
+}
