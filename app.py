@@ -247,7 +247,7 @@ def admissions():
 def news():
     unitid = int(request.args['unitid'])
 
-    response = retrieve_top_officers(unitid)
+    response = retrieve_recent_news(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
