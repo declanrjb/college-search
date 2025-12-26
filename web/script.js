@@ -1,6 +1,8 @@
 function loadSection(unitid, section) {
     if (section == 'cds') {
         loadCds(unitid)
+    } else if (section == 'news') {
+        loadNews(unitid)
     } else {
         var dataHolderId = '#' + section + ' .data-holder'
 
@@ -18,7 +20,6 @@ function loadSection(unitid, section) {
 }
 
 function loadCds(unitid) {
-
     $('#cds-list').empty()
 
     var query = 'https://college-search.onrender.com/cds?unitid=' + unitid;
@@ -43,11 +44,42 @@ function loadCds(unitid) {
     )
 }
 
-function loadData(unitid) {
-    // loadSection(unitid, 'propublica')
-    // loadSection(unitid, 'officers')
-    // loadSection(unitid, 'admissions')
-    loadCds(unitid)
+function loadNews(unitid) {
+    $('#news-list').empty()
+
+    var query = 'https://college-search.onrender.com/news?unitid=' + unitid;
+
+    console.log('sending news...')
+
+    $.get(query, 
+        function(data) {
+            console.log(data)
+            var articles = data['news_results']
+
+            for (var i=0; i<9; i++) {
+                article = articles[i]
+                console.log(article)
+
+                $('#news-list').append(
+                    `
+                    <a href="LINK"><div class="news-article">
+                        <img class="thumbnail" src="IMG_SRC">
+                        <h3 class="headline">HEADLINE</h3>
+                        <p class="byline"><span class="reporter">REPORTER</span>, <i><span class="publication">OUTLET</span></i></p>
+                        <hr>
+                        <p class="date">PUBDATE</p>
+                    </div></a>
+                    `
+                    .replace('IMG_SRC', article['thumbnail'])
+                    .replace('HEADLINE', article['title'])
+                    .replace('OUTLET', article['source']['name'])
+                    .replace('PUBDATE', article['date'])
+                    .replace('LINK', article['link'])
+                );
+            }
+
+        }
+    )
 }
 
 $(function() {
@@ -107,7 +139,7 @@ $(function() {
                     $('.college-search-input').val(e.currentTarget.textContent.trim());
                     $('.completions-holder').empty();
                     console.log(unitid)
-                    //loadData(unitid);
+                    loadNews(unitid)
                 })
             }
         )

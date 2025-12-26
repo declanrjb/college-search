@@ -158,6 +158,12 @@ def retrieve_admissions_stats(unitid):
         'data': adm_data.to_html(index=False, escape=False)
     }
 
+def clean_news_article(article):
+    if 'authors' in article['source']:
+        article['author'] = ', '.join(article['source']['authors'])
+    article['date'] = article['date'].split(',')[0]
+    return article
+
 def retrieve_recent_news(unitid):
 
     college_name = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index()['INSTNM'][0]
@@ -172,6 +178,8 @@ def retrieve_recent_news(unitid):
 
     search = GoogleSearch(params)
     results = search.get_dict()
+
+    results['news_results'] = [clean_news_article(article) for article in results['news_results'][0:10]]
 
     return results
 

@@ -98,11 +98,15 @@ th {
     width: calc(33% - 20px);
     margin: 10px;
     float: left;
+    height: 350px;
+    color: black;
 }
 
 .thumbnail {
     width: 100%;
     margin-bottom: 5px;
+    height: 215px;
+    object-fit: cover;
 }
 
 .headline {
