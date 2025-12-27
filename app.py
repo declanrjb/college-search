@@ -186,7 +186,7 @@ def retrieve_recent_news(unitid):
     return results
 
 def retrieve_narrative_desc(unitid):
-    directory = pd.read_csv('../data/directory.csv')
+    directory = pd.read_csv('data/directory.csv')
     data = directory[directory['UNITID'].apply(lambda x: x == unitid)].to_dict(orient='records')[0]
 
     desc = f"""<p>{data['INSTNM']} is a {data['SECTOR']} institution located in {data['CITY']}, {data['STABBR']}. The institution is located in a {data['LOCALE']}, and serves {data['INSTSIZE']} students. {data['CHFNM']} serves as {data['CHFTITLE']}. The institution offers {data['degrees']} degrees. {data['hbcu_label']}""".replace('\n', '').strip() + '</p>'
