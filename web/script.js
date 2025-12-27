@@ -44,6 +44,21 @@ function loadCds(unitid) {
     )
 }
 
+function loadBlurb(unitid) {
+    $('#blurb').empty()
+
+    var query = 'https://college-search.onrender.com/narrative?unitid=' + unitid;
+
+    console.log('sending blurb...')
+
+    $.get(query, 
+        function(data) {
+            console.log(data['data'])
+            $('#blurb').html(data['data'])
+        }
+    )
+}
+
 function loadNews(unitid) {
     $('#news-list').empty()
 
@@ -139,8 +154,8 @@ $(function() {
                     unitid = e.currentTarget.getAttribute('unitid');
                     $('.college-search-input').val(e.currentTarget.textContent.trim());
                     $('.completions-holder').empty();
-                    console.log(unitid)
-                    loadNews(unitid)
+                    //loadNews(unitid)
+                    loadBlurb(unitid)
                 })
             }
         )
