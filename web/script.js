@@ -1,3 +1,5 @@
+var request_stem = 'http://127.0.0.1:5000'
+
 function loadSection(unitid, section) {
     if (section == 'cds') {
         loadCds(unitid)
@@ -7,7 +9,7 @@ function loadSection(unitid, section) {
         var dataHolderId = '#' + section + ' .data-holder'
 
         $(dataHolderId).empty()
-        var query = 'https://college-search.onrender.com/' + section + '?unitid=' + unitid;
+        var query = request_stem + '/' + section + '?unitid=' + unitid;
     
         console.log('sending ' + section)
     
@@ -22,7 +24,7 @@ function loadSection(unitid, section) {
 function loadCds(unitid) {
     $('#cds-list').empty()
 
-    var query = 'https://college-search.onrender.com/cds?unitid=' + unitid;
+    var query = request_stem + '/cds?unitid=' + unitid;
 
     console.log('sending cds...')
 
@@ -47,7 +49,7 @@ function loadCds(unitid) {
 function loadBlurb(unitid) {
     $('#blurb').empty()
 
-    var query = 'https://college-search.onrender.com/narrative?unitid=' + unitid;
+    var query = request_stem + '/narrative?unitid=' + unitid;
 
     console.log('sending blurb...')
 
@@ -62,7 +64,7 @@ function loadBlurb(unitid) {
 function loadNews(unitid) {
     $('#news-list').empty()
 
-    var query = 'https://college-search.onrender.com/news?unitid=' + unitid;
+    var query = request_stem + '/news?unitid=' + unitid;
 
     console.log('sending news...')
 
@@ -129,7 +131,7 @@ $(function() {
         /* clear the previous completions */
         $('.completions-holder').empty();
 
-        var query = 'https://college-search.onrender.com/search?q=' + $('.college-search-input').val();
+        var query = request_stem + '/search?q=' + $('.college-search-input').val();
 
         console.log('sending...')
 
