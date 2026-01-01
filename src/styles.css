@@ -16,19 +16,20 @@ column {
 }
 
 #left-col {
-    width: 30%;
+    width: 25%;
     position: fixed;
 }
 
 #right-col {
-    width: 70%;
+    width: 75%;
     float: right;
+    padding-top: 0px;
 }
 
 .college-search-input {
     width: 80%;
     height: calc(100% - 5px);
-    font-size: 1.5em;
+    font-size: 1.2em;
     border: none;
     outline: none;
     float: left;
@@ -130,6 +131,7 @@ th {
     background-color: white;
     padding: 10px;
     margin-bottom: 20px;
+    display: none;
 }
 
 .info-box h2 {
@@ -143,4 +145,11 @@ th {
 #blurb {
     font-size: 1.1em;
     line-height: 1.5em;
+}
+
+.chart-wrapper {
+    width: calc(50% - 20px);
+    margin: 10px;
+    margin-bottom: 20px;
+    float: left;
 }

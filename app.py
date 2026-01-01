@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request
+from flask_cors import CORS
+
 import os
 
 from flask import Flask, jsonify, request
@@ -103,6 +105,45 @@ def frame_url(url):
     else:
         return f'<a href="{url}">View Document</a>'
 
+def parse_num(num):
+    if type(num) == int or type(num) == float:
+        return num
+    else:
+        try: 
+            result = float(num.replace('$', '').replace(',', '').replace('%', ''))
+        except:
+            result = None
+        return result
+
+def posneg_colors(val):
+    if val > 0:
+        return '#6184d8'
+    else:
+        return '#ff6663'
+
+def make_chart_data(df, x_axis, fields):
+    chart_field_map = {fields[i]: f'Field{i}' for i in range(0, len(fields))}
+
+    chart_df = df.copy()
+    chart_df = chart_df.rename(chart_field_map | {
+        x_axis: 'x_axis'
+    }, axis=1)
+
+    chart_df = chart_df.sort_values('x_axis')
+
+    chart_df['Field0'] = chart_df['Field0'].apply(parse_num)
+    chart_df['Field1'] = chart_df['Field1'].apply(parse_num)
+
+    chart_df['Color0'] = chart_df['Field0'].apply(posneg_colors)
+    chart_df['Color1'] = chart_df['Field1'].apply(posneg_colors)
+
+    charts = {
+        'headers': fields,
+        'data': chart_df.to_dict(orient='records')
+    }
+
+    return charts
+
 def retrieve_propublica_summary(unitid):
     curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
     ein = curr_college['EIN'][0]
@@ -122,11 +163,16 @@ def retrieve_propublica_summary(unitid):
         'pdf_url': 'Original Filing'
     }, axis=1)
 
+    df['Net revenue'] = df['Total revenue'] - df['Total expenses']
     df['Original Filing'] = df['Original Filing'].apply(frame_url)
 
-    return {
-        'data': df.to_html(index=False, escape=False)
-    }
+    result = {}
+
+    result['charts'] = make_chart_data(df, 'Year', ['Total revenue', 'Net revenue'])
+
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
 
 def retrieve_top_officers(unitid):
     curr_college = directory[directory['UNITID'].apply(lambda x: x == unitid)].reset_index(drop=True)
@@ -146,17 +192,23 @@ def retrieve_top_officers(unitid):
 
     df = df[['Name', 'Position', 'Compensation', 'Related', 'Other']]
 
-    return {
-        'data': df.to_html(index=False, escape=False)
-    }
+    result = {}
+    result['charts'] = make_chart_data(df, 'Name', ['Compensation', 'Related'])
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
 
 def retrieve_admissions_stats(unitid):
     adm_data = pd.read_csv('data/admissions.csv')
     adm_data = adm_data[adm_data['UNITID'].apply(lambda x: x == unitid)]
     adm_data = adm_data.drop('UNITID', axis=1)
-    return {
-        'data': adm_data.to_html(index=False, escape=False)
-    }
+    df = adm_data
+
+    result = {}
+    result['charts'] = make_chart_data(df, 'Year', ['Admission Rate', 'Yield'])
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
 
 def clean_news_article(article):
     if 'authors' in article['source']:
@@ -197,6 +249,7 @@ def retrieve_narrative_desc(unitid):
 
 # begin app definition
 app = Flask(__name__)
+CORS(app)
 
 # no modification required beyond function name
 @app.route('/search')

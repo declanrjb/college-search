@@ -16,13 +16,14 @@ column {
 }
 
 #left-col {
-  width: 30%;
+  width: 25%;
   position: fixed;
 }
 
 #right-col {
   float: right;
-  width: 70%;
+  width: 75%;
+  padding-top: 0;
 }
 
 .college-search-input {
@@ -31,7 +32,7 @@ column {
   outline: none;
   width: 80%;
   height: calc(100% - 5px);
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .search-button {
@@ -128,6 +129,7 @@ th {
   border-radius: 20px;
   margin-bottom: 20px;
   padding: 10px;
+  display: none;
   box-shadow: 0 1px 5px #666;
 }
 
@@ -142,5 +144,11 @@ th {
 #blurb {
   font-size: 1.1em;
   line-height: 1.5em;
+}
+
+.chart-wrapper {
+  float: left;
+  width: calc(50% - 20px);
+  margin: 10px 10px 20px;
 }
 /*# sourceMappingURL=college-search.4d663569.css.map */

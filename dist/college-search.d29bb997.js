@@ -718,7 +718,15 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
 var request_stem = 'http://127.0.0.1:5000';
+var chart_types = {
+    'propublica': 'bar',
+    'admissions': 'line'
+};
 function loadSection(unitid, section) {
+    $('#' + section).children('.chart-wrapper').children('.chart').each(function() {
+        var curr_chart = (0, _autoDefault.default).getChart(this);
+        if (curr_chart) curr_chart.destroy();
+    });
     if (section == 'cds') loadCds(unitid);
     else if (section == 'news') loadNews(unitid);
     else {
@@ -728,6 +736,40 @@ function loadSection(unitid, section) {
         console.log('sending ' + section);
         $.get(query, function(data) {
             $(dataHolderId).html(data['data']);
+            // make charts
+            var chart_data = data['charts']['data'];
+            console.log(chart_data);
+            var labels = data['charts']['headers'];
+            console.log('first chart');
+            new (0, _autoDefault.default)($('#' + section + ' .chart-left'), {
+                type: chart_types[section],
+                data: {
+                    labels: chart_data.map((row)=>row.x_axis),
+                    datasets: [
+                        {
+                            label: labels[0],
+                            data: chart_data.map((row)=>row.Field0),
+                            backgroundColor: chart_data.map((row)=>row.Color0),
+                            borderColor: chart_data.map((row)=>row.Color0)
+                        }
+                    ]
+                }
+            });
+            console.log('second chart');
+            new (0, _autoDefault.default)($('#' + section + ' .chart-right'), {
+                type: chart_types[section],
+                data: {
+                    labels: chart_data.map((row)=>row.x_axis),
+                    datasets: [
+                        {
+                            label: labels[1],
+                            data: chart_data.map((row)=>row.Field1),
+                            backgroundColor: chart_data.map((row)=>row.Color1),
+                            borderColor: chart_data.map((row)=>row.Color1)
+                        }
+                    ]
+                }
+            });
         });
     }
 }
@@ -777,63 +819,33 @@ function loadNews(unitid) {
     });
 }
 $(function() {
-    const data = [
-        {
-            year: 2010,
-            count: 10
-        },
-        {
-            year: 2011,
-            count: 20
-        },
-        {
-            year: 2012,
-            count: 15
-        },
-        {
-            year: 2013,
-            count: 25
-        },
-        {
-            year: 2014,
-            count: 22
-        },
-        {
-            year: 2015,
-            count: 30
-        },
-        {
-            year: 2016,
-            count: 28
-        }
-    ];
-    new (0, _autoDefault.default)(document.getElementById('acquisitions'), {
-        type: 'bar',
-        data: {
-            labels: data.map((row)=>row.year),
-            datasets: [
-                {
-                    label: 'Acquisitions by year',
-                    data: data.map((row)=>row.count)
-                }
-            ]
-        }
-    });
-    var unitid;
+    var unitid = 204501;
+    loadSection(unitid, 'admissions');
+    loadBlurb(unitid);
     /* set open and close states initially */ $('.subsection[open="false"] .data-holder').css('display', 'none');
+    $('.subsection[open="false"] .chart-wrapper').css('display', 'none');
     $('.subsection[open="false"] #subsec-arrow').attr('class', 'fa-solid fa-caret-right');
     $('.subsection[open="true"] .data-holder').css('display', 'block');
+    $('.subsection[open="true"] .chart-wrapper').css('display', 'block');
     $('.subsection[open="true"] #subsec-arrow').attr('class', 'fa-solid fa-caret-down');
     /* set up open and close click function */ $('.subsection-header').on('click', function(e) {
         if (e.currentTarget.parentElement.getAttribute('open') == 'false') {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block');
+            $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'block');
             e.currentTarget.parentElement.setAttribute('open', 'true');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down');
             loadSection(unitid, e.currentTarget.parentElement.getAttribute('id'));
         } else {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none');
+            $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'none');
             e.currentTarget.parentElement.setAttribute('open', 'false');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-right');
+            // clear current charts
+            $(e.currentTarget.parentElement).children('.chart-wrapper').children('.chart').each(function() {
+                var curr_chart = (0, _autoDefault.default).getChart(this);
+                curr_chart.destroy();
+                console.log(curr_chart + 'cleared');
+            });
         }
     });
     $('.search-button').on('click', function() {
@@ -854,8 +866,14 @@ $(function() {
                 $('.completions-holder').empty();
                 //loadNews(unitid)
                 loadBlurb(unitid);
+                $('.subsection[open="true"]').each(function(index) {
+                    loadSection(unitid, $(this).attr('id'));
+                });
             });
         });
+    });
+    $('.college-search-input').on('input', function(e) {
+        console.log($('.college-search-input').val());
     });
 });
 

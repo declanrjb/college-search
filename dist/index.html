@@ -18,18 +18,35 @@
                 </p>
             </div>
             <div class="search-box">
-                <input type="text" class="college-search-input">
+                <input type="text" class="college-search-input" placeholder="Oberlin College">
                 <div class="search-button"><i class="fa-solid fa-magnifying-glass"></i></div>
             </div>
             <div class="completions-holder"></div>
             <div id="blurb"></div>
         </column>
         <column id="right-col">
-            <div style="width: 800px"><canvas id="acquisitions"></canvas></div>
             <div class="subsections">
+                <div class="subsection" id="admissions" open="true">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Admissions Statistics</h2>
+                        <hr>
+                    </div>
+                    <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-right"></canvas></div>
+                    <div class="data-holder"></div>
+                </div>
                 <div class="subsection" id="propublica" open="false">
                     <div class="subsection-header">
                         <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Financial Position</h2>
+                        <hr>
+                    </div>
+                    <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-right"></canvas></div>
+                    <div class="data-holder"></div>
+                </div>
+                <div class="subsection" id="officers" open="false">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Top Officers</h2>
                         <hr>
                     </div>
                     <div class="data-holder"></div>
@@ -45,20 +62,6 @@
 
                         </ul>
                     </div>
-                </div>
-                <div class="subsection" id="officers" open="false">
-                    <div class="subsection-header">
-                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Top Officers</h2>
-                        <hr>
-                    </div>
-                    <div class="data-holder"></div>
-                </div>
-                <div class="subsection" id="admissions" open="false">
-                    <div class="subsection-header">
-                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Admissions Statistics</h2>
-                        <hr>
-                    </div>
-                    <div class="data-holder"></div>
                 </div>
                 <div class="subsection" id="news" open="false">
                     <div class="subsection-header">
