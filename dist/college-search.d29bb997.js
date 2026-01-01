@@ -717,7 +717,8 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-var request_stem = 'http://127.0.0.1:5000';
+//var request_stem = 'http://127.0.0.1:5000'
+var request_stem = 'https://college-search.onrender.com';
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line'
@@ -788,12 +789,12 @@ function loadCds(unitid) {
     });
 }
 function loadBlurb(unitid) {
+    console.log('load blurb triggered');
     $('#blurb').empty();
     var query = request_stem + '/narrative?unitid=' + unitid;
     console.log('sending blurb...');
     $.get(query, function(data) {
-        console.log(data['data']);
-        $('#blurb').html(data['data']);
+        $('#blurb').html(data['data']).css('display', 'block');
     });
 }
 function loadNews(unitid) {
@@ -816,6 +817,30 @@ function loadNews(unitid) {
                     </div></a>
                     `.replace('IMG_SRC', article['thumbnail']).replace('HEADLINE', article['title']).replace('OUTLET', article['source']['name']).replace('PUBDATE', article['date']).replace('LINK', article['link']).replace('REPORTER', article['author']));
         }
+    });
+}
+function generateCompletions() {
+    /* clear the previous completions */ $('.completions-holder').empty();
+    var query = request_stem + '/search?q=' + $('.college-search-input').val();
+    console.log('sending...');
+    $.getJSON(query, function(data) {
+        console.log(data);
+        var results = data['completions'];
+        for(var i = 0; i < results.length; i++)$('.completions-holder').append(`
+                    <div class="completion" unitid="UNITID">
+                        NAME (STABBR)
+                    </div>
+                    `.replace('NAME', results[i]['INSTNM']).replace('STABBR', results[i]['STABBR']).replace('UNITID', results[i]['UNITID']));
+        $('.completion').on('click', function(e) {
+            var unitid = e.currentTarget.getAttribute('unitid');
+            $('.college-search-input').val(e.currentTarget.textContent.trim());
+            $('.completions-holder').empty();
+            //loadNews(unitid)
+            loadBlurb(unitid);
+            $('.subsection[open="true"]').each(function(index) {
+                loadSection(unitid, $(this).attr('id'));
+            });
+        });
     });
 }
 $(function() {
@@ -848,32 +873,16 @@ $(function() {
             });
         }
     });
-    $('.search-button').on('click', function() {
-        /* clear the previous completions */ $('.completions-holder').empty();
-        var query = request_stem + '/search?q=' + $('.college-search-input').val();
-        console.log('sending...');
-        $.getJSON(query, function(data) {
-            console.log(data);
-            var results = data['completions'];
-            for(var i = 0; i < results.length; i++)$('.completions-holder').append(`
-                        <div class="completion" unitid="UNITID">
-                            NAME (STABBR)
-                        </div>
-                        `.replace('NAME', results[i]['INSTNM']).replace('STABBR', results[i]['STABBR']).replace('UNITID', results[i]['UNITID']));
-            $('.completion').on('click', function(e) {
-                unitid = e.currentTarget.getAttribute('unitid');
-                $('.college-search-input').val(e.currentTarget.textContent.trim());
-                $('.completions-holder').empty();
-                //loadNews(unitid)
-                loadBlurb(unitid);
-                $('.subsection[open="true"]').each(function(index) {
-                    loadSection(unitid, $(this).attr('id'));
-                });
-            });
-        });
-    });
+    $('.search-button').on('click', generateCompletions);
     $('.college-search-input').on('input', function(e) {
-        console.log($('.college-search-input').val());
+        var curr_val = $('.college-search-input').val();
+        if (curr_val.length >= 3) {
+            $('#blurb').css('display', 'none');
+            generateCompletions();
+        }
+    });
+    $('.college-search-input').on('click', function(e) {
+        $(e.currentTarget).val('');
     });
 });
 
