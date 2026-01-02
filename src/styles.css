@@ -153,3 +153,25 @@ th {
     margin-bottom: 20px;
     float: left;
 }
+
+span {
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 5px;
+}
+
+.sector {
+    background-color: #1f487e;
+    color: white;
+}
+
+.sbody-size {
+    background-color: #f61713;
+    color: white;
+}
+
+.degree-types {
+    background-color: #dbaf07;
+    color: white;
+}

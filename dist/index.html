@@ -1,65 +1,75 @@
-<!DOCTYPE html><title>College Search</title><meta name=viewport content="width=device-width, initial-scale=1"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><link rel=stylesheet href=college-search.806dbdc1.css><link rel="icon shortcut" type=image/x-icon href=icon.dfb7d057.svg><script src=https://kit.fontawesome.com/bb1d08a9b2.js crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js></script><script src=https://code.jquery.com/jquery-3.7.1.min.js></script><body>
-    <div class=interface-main>
-        <column id=left-col>
-            <div class=info-box>
-                <h2><i class="fa-graduation-cap fa-solid"></i> UniData</h2>
+<!DOCTYPE html><html><head>
+    <title>College Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/college-search.4d663569.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/icon.e0ba90b5.svg">
+    <script src="https://kit.fontawesome.com/bb1d08a9b2.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <div class="interface-main">
+        <column id="left-col">
+            <div class="info-box">
+                <h2><i class="fa-solid fa-graduation-cap"></i> UniData</h2>
                 <p>UniData is a higher education focused data search engine intended for use by education reporters and data journalists. UniData is a project developed by Declan Bradley, supported by data from the Common Data Set, National Center for Education Statistics,
                     and ProPublica, among others.
                 </p>
             </div>
-            <div class=search-box>
-                <input class=college-search-input placeholder="Oberlin College">
-                <div class=search-button><i class="fa-magnifying-glass fa-solid"></i></div>
+            <div class="search-box">
+                <input type="text" class="college-search-input" placeholder="Oberlin College">
+                <div class="search-button"><i class="fa-solid fa-magnifying-glass"></i></div>
             </div>
-            <div class=completions-holder></div>
-            <div id=blurb></div>
+            <div class="completions-holder"></div>
+            <div id="blurb"></div>
         </column>
-        <column id=right-col>
-            <div class=subsections>
-                <div class=subsection id=admissions open=true>
-                    <div class=subsection-header>
-                        <h2 class=subsection-title><i id=subsec-arrow class="fa-caret-right fa-solid"></i> Admissions Statistics</h2>
+        <column id="right-col">
+            <div class="subsections">
+                <div class="subsection" id="admissions" open="true">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Admissions Statistics</h2>
                         <hr>
                     </div>
-                    <div class=chart-wrapper><canvas class="chart chart-left"></canvas></div>
-                    <div class=chart-wrapper><canvas class="chart chart-right"></canvas></div>
-                    <div class=data-holder></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-right"></canvas></div>
+                    <div class="data-holder"></div>
                 </div>
-                <div class=subsection id=propublica open=false>
-                    <div class=subsection-header>
-                        <h2 class=subsection-title><i id=subsec-arrow class="fa-caret-right fa-solid"></i> Financial Position</h2>
+                <div class="subsection" id="propublica" open="false">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Financial Position</h2>
                         <hr>
                     </div>
-                    <div class=chart-wrapper><canvas class="chart chart-left"></canvas></div>
-                    <div class=chart-wrapper><canvas class="chart chart-right"></canvas></div>
-                    <div class=data-holder></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-right"></canvas></div>
+                    <div class="data-holder"></div>
                 </div>
-                <div class=subsection id=officers open=false>
-                    <div class=subsection-header>
-                        <h2 class=subsection-title><i id=subsec-arrow class="fa-caret-right fa-solid"></i> Top Officers</h2>
+                <div class="subsection" id="officers" open="false">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Top Officers</h2>
                         <hr>
                     </div>
-                    <div class=data-holder></div>
+                    <div class="data-holder"></div>
                 </div>
-                <div class=subsection id=cds open=false>
-                    <div class=subsection-header>
-                        <h2 class=subsection-title><i id=subsec-arrow class="fa-caret-right fa-solid"></i> Common Data Set</h2>
+                <div class="subsection" id="cds" open="false">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Common Data Set</h2>
                         <hr>
                     </div>
-                    <div class=data-holder>
-                        <p><b>Institution CDS Homepage: </b><a id=cds-homepage></a></p>
-                        <ul id=cds-list>
+                    <div class="data-holder">
+                        <p><b>Institution CDS Homepage: </b><a id="cds-homepage"></a></p>
+                        <ul id="cds-list">
 
                         </ul>
                     </div>
                 </div>
-                <div class=subsection id=news open=false>
-                    <div class=subsection-header>
-                        <h2 class=subsection-title><i id=subsec-arrow class="fa-caret-right fa-solid"></i> Recent Headlines</h2>
+                <div class="subsection" id="news" open="false">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Recent Headlines</h2>
                         <hr>
                     </div>
-                    <div class=data-holder>
-                        <div id=news-list></div>
+                    <div class="data-holder">
+                        <div id="news-list"></div>
                     </div>
                 </div>
 
@@ -68,6 +78,6 @@
     </div>
 
 <footer>
-    <script type=module src=college-search.ac27c22b.js></script>
-    
-</footer>
+    <script type="module" src="/college-search.d29bb997.js"></script>
+    <!--<script type="module" src="./acquisitions.js"></script>-->
+</footer></body></html>

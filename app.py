@@ -241,7 +241,12 @@ def retrieve_narrative_desc(unitid):
     directory = pd.read_csv('data/directory.csv')
     data = directory[directory['UNITID'].apply(lambda x: x == unitid)].to_dict(orient='records')[0]
 
-    desc = f"""<p>{data['INSTNM']} is a {data['SECTOR']} institution located in {data['CITY']}, {data['STABBR']}. The institution is located in a {data['LOCALE']}, and serves {data['INSTSIZE']} students. {data['CHFNM']} serves as {data['CHFTITLE']}. The institution offers {data['degrees']} degrees. {data['hbcu_label']}""".replace('\n', '').strip() + '</p>'
+    desc = f"""
+    <p>{data['INSTNM']} is a <span class="sector">{data['SECTOR']}</span> institution located in {data['CITY']}, {data['STABBR']}. 
+    The institution is located in a {data['LOCALE']}, and serves <span class="sbody-size">{data['INSTSIZE']}</span> students. 
+    {data['CHFNM']} serves as {data['CHFTITLE']}. The institution offers <span class="degree-types">{data['degrees']}</span> degrees. 
+    {data['hbcu_label']}
+    """.replace('\n', '').strip() + '</p>'
     
     return {
         'data': desc

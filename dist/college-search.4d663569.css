@@ -151,4 +151,24 @@ th {
   width: calc(50% - 20px);
   margin: 10px 10px 20px;
 }
+
+span {
+  border-radius: 5px;
+  padding: 2px 4px;
+}
+
+.sector {
+  color: #fff;
+  background-color: #1f487e;
+}
+
+.sbody-size {
+  color: #fff;
+  background-color: #f61713;
+}
+
+.degree-types {
+  color: #fff;
+  background-color: #dbaf07;
+}
 /*# sourceMappingURL=college-search.4d663569.css.map */

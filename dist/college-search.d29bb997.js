@@ -717,12 +717,13 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-//var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com';
+var request_stem = 'http://127.0.0.1:5000';
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line'
 };
+console.log('starting the real script');
 function loadSection(unitid, section) {
     $('#' + section).children('.chart-wrapper').children('.chart').each(function() {
         var curr_chart = (0, _autoDefault.default).getChart(this);
@@ -792,6 +793,7 @@ function loadBlurb(unitid) {
     console.log('load blurb triggered');
     $('#blurb').empty();
     var query = request_stem + '/narrative?unitid=' + unitid;
+    console.log(query);
     console.log('sending blurb...');
     $.get(query, function(data) {
         $('#blurb').html(data['data']).css('display', 'block');
