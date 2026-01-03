@@ -27,9 +27,18 @@
         </column>
         <column id="right-col">
             <div class="subsections">
-                <div class="subsection" id="admissions" open="true">
+                <div class="subsection" id="admissions" open="false">
                     <div class="subsection-header">
                         <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Admissions Statistics</h2>
+                        <hr>
+                    </div>
+                    <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>
+                    <div class="chart-wrapper"><canvas class="chart chart-right"></canvas></div>
+                    <div class="data-holder"></div>
+                </div>
+                <div class="subsection" id="enrollment" open="true">
+                    <div class="subsection-header">
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Enrollment</h2>
                         <hr>
                     </div>
                     <div class="chart-wrapper"><canvas class="chart chart-left"></canvas></div>

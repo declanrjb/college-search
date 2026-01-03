@@ -22,6 +22,92 @@ function loadSection(unitid, section) {
         loadCds(unitid)
     } else if (section == 'news') {
         loadNews(unitid)
+    } else if (section == 'enrollment') {
+        var dataHolderId = '#' + section + ' .data-holder'
+
+        $(dataHolderId).empty()
+        var query = request_stem + '/' + section + '?unitid=' + unitid;
+    
+        console.log('sending ' + section)
+    
+        $.get(query, 
+            function(data) {
+
+                console.log(data)
+                $(dataHolderId).append('<div class="enroll-table"></div>')
+                $(dataHolderId).append('<div class="demo-table"></div>')
+
+                $('.enroll-table').html(data['enrollment']['data'])
+                $('.demo-table').html(data['demographics']['data'])
+
+
+
+                // $(dataHolderId).html(data['data']);
+                // // make charts
+                // var chart_data = data['charts']['data']
+                // console.log(chart_data)
+                // var labels = data['charts']['headers']
+
+                // console.log('first chart')
+                // new Chart(
+                //     $('#' + section + ' .chart-left'),
+                //     {
+                //         type: chart_types[section],
+                //         data: {
+                //         labels: chart_data.map(row => row.x_axis),
+                //         datasets: [
+                //             {
+                //                 label: labels[0],
+                //                 data: chart_data.map(row => row.Field0),
+                //                 backgroundColor: chart_data.map(row => row.Color0),
+                //                 borderColor: chart_data.map(row => row.Color0)
+                //             }
+                //         ]
+                //         }
+                //     }
+                //     )
+
+                var chart_data = data['enrollment']['charts']['data']
+                var labels = data['enrollment']['charts']['headers']
+                console.log('second chart')
+                new Chart(
+                    $('#' + section + ' .chart-left'),
+                    {
+                        type: 'bar',
+                        data: {
+                        labels: chart_data.map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                data: chart_data.map(row => row.Field0)
+                            }
+                        ]
+                        }
+                    }
+                    )
+
+                var chart_data = data['demographics']['charts']['data']
+                var labels = data['demographics']['charts']['headers']
+                console.log('second chart')
+                new Chart(
+                    $('#' + section + ' .chart-right'),
+                    {
+                        type: 'radar',
+                        data: {
+                        labels: chart_data.map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                data: chart_data.map(row => row.Field0)
+                            }
+                        ]
+                        }
+                    }
+                    )
+
+
+            }
+        )
     } else {
         var dataHolderId = '#' + section + ' .data-holder'
 
@@ -36,7 +122,7 @@ function loadSection(unitid, section) {
                 $(dataHolderId).html(data['data']);
                 // make charts
                 var chart_data = data['charts']['data']
-                console.log(chart_data)
+
                 var labels = data['charts']['headers']
 
                 console.log('first chart')
@@ -205,7 +291,7 @@ function generateCompletions() {
 $(function() {
 
     var unitid = 204501;
-    loadSection(unitid, 'admissions')
+    loadSection(unitid, 'enrollment')
     loadBlurb(unitid)
 
     /* set open and close states initially */

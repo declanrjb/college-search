@@ -365,22 +365,17 @@ def narrative():
 
     return response
 
-@app.route('/enroll')
-def enroll():
+@app.route('/enrollment')
+def enrollment():
     unitid = int(request.args['unitid'])
 
-    response = retrieve_enroll_totals(unitid)
+    enrollment = retrieve_enroll_totals(unitid)
+    demographics = retrieve_demos(unitid)
 
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-
-    return response
-
-@app.route('/demos')
-def demos():
-    unitid = int(request.args['unitid'])
-
-    response = retrieve_demos(unitid)
+    response = {
+        'enrollment': enrollment,
+        'demographics': demographics
+    }
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
