@@ -131,11 +131,9 @@ def make_chart_data(df, x_axis, fields):
 
     chart_df = chart_df.sort_values('x_axis')
 
-    chart_df['Field0'] = chart_df['Field0'].apply(parse_num)
-    chart_df['Field1'] = chart_df['Field1'].apply(parse_num)
-
-    chart_df['Color0'] = chart_df['Field0'].apply(posneg_colors)
-    chart_df['Color1'] = chart_df['Field1'].apply(posneg_colors)
+    for field in chart_field_map.values():
+        chart_df[field] = chart_df[field].apply(parse_num)
+        chart_df[field.replace('Field', 'Color')] = chart_df[field].apply(posneg_colors)
 
     charts = {
         'headers': fields,
@@ -206,6 +204,30 @@ def retrieve_admissions_stats(unitid):
 
     result = {}
     result['charts'] = make_chart_data(df, 'Year', ['Admission Rate', 'Yield'])
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
+
+def retrieve_enroll_totals(unitid):
+    data = pd.read_csv('data/enroll-total.csv')
+    data = data[data['UNITID'].apply(lambda x: x == unitid)]
+    data = data.drop('UNITID', axis=1)
+    df = data
+
+    result = {}
+    result['charts'] = make_chart_data(df, 'YEAR', ['Total Students'])
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
+
+def retrieve_demos(unitid):
+    data = pd.read_csv('data/demographics.csv')
+    data = data[data['UNITID'].apply(lambda x: x == unitid)]
+    data = data.drop('UNITID', axis=1)
+    df = data
+
+    result = {}
+    result['charts'] = make_chart_data(df, 'Demographic', ['Students'])
     result['data'] = df.to_html(index=False, escape=False)
 
     return result
@@ -337,6 +359,28 @@ def narrative():
     unitid = int(request.args['unitid'])
 
     response = retrieve_narrative_desc(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/enroll')
+def enroll():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_enroll_totals(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/demos')
+def demos():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_demos(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
