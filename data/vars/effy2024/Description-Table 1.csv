@@ -1,0 +1,141 @@
+varNumber,varName,longDescription,,
+1,UNITID,,,
+20662,EFFYALEV,"Level,  full- and part-time status, degree-seeking/non degree-seeking status  and year of study of student  - This variable identifies the level of enrollment (unduplicated headcount) data for the institution.  Enrollment counts are available by level of student (undergraduate or graduate).  Undergraduate enrollments are disaggregated by degree-seeking and non-degree seeking status. Degree-seeking enrollments are further broken out by first-time, first year students, transfer-ins and continuing students.  Undergraduate categories are available by full- and part-time status.
+
+Undergraduate  A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate.  
+
+Degree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking.  
+
+First-time student (undergraduate)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).  
+
+Transfer-in student (undergraduate)  A student entering the reporting institution for the first time but known to have previously attended a postsecondary institution at the same level. The student may transfer with or without credit.  
+
+Graduate student  A student who holds a bachelor's degree or above and is taking courses at the postbaccalaureate level. These students may or may not be enrolled in graduate programs.  
+
+Full-time student  Undergraduate: A student enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. Graduate: A student enrolled for 9 or more semester credits, or 9 or more quarter credits, or a student involved in thesis or dissertation preparation that is considered full time by the institution. Doctor's degree - Professional practice - as defined by the institution.  
+
+Part-time student  Undergraduate: A student enrolled for either less than 12 semester or quarter credits, or less than 24 clock hours a week each term. Graduate: A student enrolled for less than 9 semester or quarter credits",,
+20661,EFFYLEV,"Level of study 
+
+1 - Total students enrolled for credit
+2 - Undergraduate students - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. Students who have already earned a bachelor's degree but are taking undergraduate courses FOR CREDIT are included as undergraduates. 
+4- Graduate student -  A student who holds a bachelor's degree or above and is taking courses at the postbaccalaureate level. These students may or may not be enrolled in graduate programs.",,
+22023,LSTUDY,"Original level of study on survey form
+1 - Undergraduate students - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. Students who have already earned a bachelor's degree but are taking undergraduate courses FOR CREDIT are included as undergraduates. 
+3- Graduate student -  A student who holds a bachelor's degree or above and is taking courses at the postbaccalaureate level. These students may or may not be enrolled in graduate programs.",,
+20781,EFYTOTLT,"Grand total men and women enrolled for credit during the 12-month reporting period.
+CREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award.",,
+20736,EFYTOTLM,"12-month unduplicated headcount by race/ethnicity and gender
+Grand total men enrolled for credit during the 12-month reporting period.
+CREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award.",,
+20741,EFYTOTLW,"12-month unduplicated headcount by race/ethnicity and gender
+Grand total women enrolled for credit during the 12-month reporting period.
+CREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award.",,
+24176,EFYAIANT,"EFYAIANT
+American Indian or Alaska Native men and women enrolled for credit during the 12-month period.
+
+American Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment.",,
+24111,EFYAIANM,"American Indian or Alaska Native men enrolled for credit during the 12-month period.
+
+American Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment.",,
+24116,EFYAIANW,"American Indian or Alaska Native women enrolled for credit during the 12-month period.
+
+American Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment.",,
+24181,EFYASIAT,"Asian men and women enrolled for credit during the 12-month period.
+
+Asian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",,
+24121,EFYASIAM,"Asian men enrolled for credit during the 12-month period.
+
+Asian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",,
+24126,EFYASIAW,"Asian women enrolled for credit during the 12-month period.
+
+Asian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",,
+24186,EFYBKAAT,"Black or African American men and women enrolled for credit during the 12-month period.
+
+Black or African American - A person having origins in any of the black racial groups of Africa.",,
+24131,EFYBKAAM,"Black or African American men enrolled for credit during the 12-month period.
+
+Black or African American - A person having origins in any of the black racial groups of Africa.",,
+24136,EFYBKAAW,"Black or African American women enrolled for credit during the 12-month period.
+
+Black or African American - A person having origins in any of the black racial groups of Africa.",,
+24171,EFYHISPT,"Hispanic or Latino men and women enrolled for credit during the 12-month period.
+
+Hispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",,
+24101,EFYHISPM,"Hispanic or Latino men enrolled for credit during the 12-month period.
+
+Hispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",,
+24106,EFYHISPW,"Hispanic or Latino women enrolled for credit during the 12-month period.
+
+Hispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.",,
+24191,EFYNHPIT,"Native Hawaiian or Other Pacific Islanders men and women enrolled for credit during the 12-month period.
+
+Native Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",,
+24141,EFYNHPIM,"Native Hawaiian or Other Pacific Islanders men enrolled for credit during the 12-month period.
+
+Native Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",,
+24146,EFYNHPIW,"Native Hawaiian or Other Pacific Islanders women enrolled for credit during the 12-month period.
+
+Native Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",,
+24196,EFYWHITT,"White men and women enrolled for credit during the 12-month period.
+
+White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",,
+24151,EFYWHITM,"White men enrolled for credit during the 12-month period.
+
+White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",,
+24156,EFYWHITW,"White women enrolled for credit during the 12-month period.
+
+White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",,
+24201,EFY2MORT,"Men and women of two or more races enrolled for credit during the 12-month period.  
+
+Two or more races - Category used by institutions to report persons who selected more than one race.",,
+24161,EFY2MORM,"Men of two or more races enrolled for credit during the 12-month period.  
+
+Two or more races - Category used by institutions to report persons who selected more than one race.",,
+24166,EFY2MORW,"Women of two or more races enrolled for credit during the 12-month period.  
+
+Two or more races - Category used by institutions to report persons who selected more than one race.",,
+20776,EFYUNKNT,"Race/ethnicity unknown men and women enrolled for credit during the 12-month period.
+Race/ethnicity unknown - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process.",,
+20726,EFYUNKNM,"12-month unduplicated headcount by race/ethnicity and gender
+Race/ethnicity unknown men enrolled for credit during the 12-month period.
+Race/ethnicity unknown - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process.",,
+20731,EFYUNKNW,"12-month unduplicated headcount by race/ethnicity and gender
+Race/ethnicity unknown women enrolled for credit during the 12-month period.
+Race/ethnicity unknown - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process.",,
+20746,EFYNRALT,"U.S. Nonresident men and women enrolled for credit during the 12-month reporting period
+
+U.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely.
+NOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens.",,
+20666,EFYNRALM,"12-month unduplicated headcount by race/ethnicity and gender
+U.S. Nonresident men enrolled for credit during the 12-month reporting period.
+U.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely.
+NOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens.",,
+20671,EFYNRALW,"12-month unduplicated headcount by race/ethnicity and gender
+U.S. Nonresident women enrolled for credit during the 12-month reporting period.
+U.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely.
+NOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens.",,
+26296,EFYGUUN,"Gender unknown students enrolled for credit during the 12-month period.
+
+The gender unknown’ category is the number of students for whom the institution does not know a gender.
+
+12-month Unduplicated Count by Gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories.",,
+26301,EFYGUAN,"Number of students identified as another gender enrolled for credit during the 12-month period
+
+Another gender (i.e., gender information is known but does not fall into either of the mutually exclusive binary categories provided [Men/Women]).
+
+This variable is left missing or blank for institutions who indicated that they were not able to report another gender for this data collection. For institutions who indicated that they were able to report another gender for this data collection, but no students identified as another gender this variable/cell is zero.   For institutions who indicated that they were able to report another gender but the number students identified as another gender was less than 5, this variable/cell is blank and the corresponding item impuation flag variable (XEFYGUAN) would have the value of ""S"".
+
+12-month Unduplicated Count by Gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories.",,
+26306,EFYGUTOT,"Number of students gender unknown and the number of students identified as another gender enrolled for credit during the 12-month period
+
+Gender unknown and another gender - The number of students the institution allocated to a binary gender category (Men/Women) because their gender was unknown or identified as another gender than the provided categories.
+
+For institutions who indicated that they were able to report another gender but the number students identified as another gender was less than 5, this variable/cell is blank and the corresponding item impuation flag variable (XEFYGUTO) would have the value of ""S"".
+
+12-month Unduplicated Count by Gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories.",,
+26311,EFYGUKN,"Number of students for whom gender is known and falls into one of the mutually exclusive binary categories [Men/Women] enrolled for credit during the 12-month period.
+
+12-month Unduplicated Count by Gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories.
+
+For institutions who indicated that they were able to report another gender but the number students identified as another gender was less than 5, this variable/cell is blank and the corresponding item impuation flag variable (XEFYGUKN) would have the value of ""S"".",,

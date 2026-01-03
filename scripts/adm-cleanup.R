@@ -1,4 +1,5 @@
 library(tidyverse)
+source('scripts/functions.R')
 
 adm_files <- list.files('data/ipeds-clean/admissions', full.names=TRUE)
 
