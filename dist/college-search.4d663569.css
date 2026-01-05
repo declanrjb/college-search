@@ -171,4 +171,12 @@ span {
   color: #fff;
   background-color: #dbaf07;
 }
+
+#demo-chart-left {
+  width: calc(40% - 20px);
+}
+
+#demo-chart-right {
+  width: calc(60% - 20px);
+}
 /*# sourceMappingURL=college-search.4d663569.css.map */

@@ -175,3 +175,11 @@ span {
     background-color: #dbaf07;
     color: white;
 }
+
+#demo-chart-left {
+    width: calc(40% - 20px);
+}
+
+#demo-chart-right {
+    width: calc(60% - 20px);
+}

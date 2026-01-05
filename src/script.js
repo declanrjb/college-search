@@ -7,8 +7,6 @@ var chart_types = {
     'admissions': 'line'
 }
 
-console.log('starting the real script')
-
 function loadSection(unitid, section) {
 
     $('#' + section).children('.chart-wrapper').children('.chart').each(function() {
@@ -23,84 +21,14 @@ function loadSection(unitid, section) {
     } else if (section == 'news') {
         loadNews(unitid)
     } else if (section == 'enrollment') {
-        var dataHolderId = '#' + section + ' .data-holder'
-
-        $(dataHolderId).empty()
-        var query = request_stem + '/' + section + '?unitid=' + unitid;
-    
-        console.log('sending ' + section)
-    
-        $.get(query, 
-            function(data) {
-
-                $(dataHolderId).append('<div class="enroll-table"></div>')
-                $(dataHolderId).append('<div class="demo-table"></div>')
-
-                $(dataHolderId).html(data['data'])
-
-                var chart_data = data['charts'][0]
-                console.log(chart_data)
-                var labels = chart_data['headers']
-                console.log('first chart')
-                new Chart(
-                    $('#' + section + ' .chart-left'),
-                    {
-                        type: 'bar',
-                        data: {
-                            labels: chart_data['data'].map(row => row.x_axis),
-                            datasets: [
-                                {
-                                    label: labels[0],
-                                    data: chart_data['data'].map(row => row.Field0)
-                                },
-                                {
-                                    label: labels[1],
-                                    data: chart_data['data'].map(row => row.Field1)
-                                },
-                            ]
-                        },
-                        options: {
-                            scales: {
-                                x: {
-                                    stacked: true
-                                },
-                                y: {
-                                    stacked: true
-                                }
-                            }
-                        }
-                    }
-                    )
-
-                var chart_data = data['charts'][1]
-                var labels = chart_data['headers']
-                console.log('second chart')
-                new Chart(
-                    $('#' + section + ' .chart-right'),
-                    {
-                        type: 'bar',
-                        data: {
-                        labels: chart_data['data'].map(row => row.x_axis),
-                        datasets: [
-                            {
-                                label: labels[0],
-                                data: chart_data['data'].map(row => row.Field0)
-                            }
-                        ]
-                        }
-                    }
-                    )
-
-
-            }
-        )
+        loadEnrollment(unitid)
+    } else if (section == 'demographics') {
+        loadDemographics(unitid)
     } else {
         var dataHolderId = '#' + section + ' .data-holder'
 
         $(dataHolderId).empty()
         var query = request_stem + '/' + section + '?unitid=' + unitid;
-    
-        console.log('sending ' + section)
     
         $.get(query, 
             function(data) {
@@ -111,7 +39,6 @@ function loadSection(unitid, section) {
 
                 var labels = data['charts']['headers']
 
-                console.log('first chart')
                 new Chart(
                     $('#' + section + ' .chart-left'),
                     {
@@ -130,7 +57,6 @@ function loadSection(unitid, section) {
                     }
                     )
 
-                console.log('second chart')
                 new Chart(
                     $('#' + section + ' .chart-right'),
                     {
@@ -160,11 +86,8 @@ function loadCds(unitid) {
 
     var query = request_stem + '/cds?unitid=' + unitid;
 
-    console.log('sending cds...')
-
     $.get(query, 
         function(data) {
-            console.log(data['data'])
             $('#cds-homepage').text(data['data']['homepage']).attr('href', data['data']['homepage'])
             var candDocs = data['data']['documents']
             for (var i=0; i<candDocs.length; i++) {
@@ -180,14 +103,155 @@ function loadCds(unitid) {
     )
 }
 
+function loadEnrollment(unitid) {
+    var dataHolderId = '#enrollment' + ' .data-holder'
+
+    $(dataHolderId).empty()
+    var query = request_stem + '/enrollment' + '?unitid=' + unitid;
+
+    $.get(query, 
+        function(data) {
+
+            $(dataHolderId).append('<div class="enroll-table"></div>')
+            $(dataHolderId).append('<div class="demo-table"></div>')
+
+            $(dataHolderId).html(data['data'])
+
+            var chart_data = data['charts'][0]
+            var labels = chart_data['headers']
+
+            new Chart(
+                $('#enrollment' + ' .chart-left'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                data: chart_data['data'].map(row => row.Field0),
+                                backgroundColor: chart_data['data'].map(row => '#6184d8'),
+                                borderColor: chart_data['data'].map(row => '#6184d8')
+                            },
+                            {
+                                label: labels[1],
+                                data: chart_data['data'].map(row => row.Field1),
+                                backgroundColor: chart_data['data'].map(row => '#ff6663'),
+                                borderColor: chart_data['data'].map(row => '#ff6663')
+                            },
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                }
+                )
+
+            var chart_data = data['charts'][1]
+            var labels = chart_data['headers']
+
+            new Chart(
+                $('#enrollment' + ' .chart-right'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                data: chart_data['data'].map(row => row.Field0),
+                                backgroundColor: chart_data['data'].map(row => '#6184d8')
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y'
+                    }
+                }
+                )
+
+
+        }
+    )
+}
+
+function loadDemographics(unitid) {
+    var dataHolderId = '#demographics' + ' .data-holder'
+
+    $(dataHolderId).empty()
+    var query = request_stem + '/demographics' + '?unitid=' + unitid;
+    console.log('sending demo query')
+    $.get(query, 
+        function(data) {
+
+            $(dataHolderId).html(data['data'])
+
+            console.log(data)
+
+            var chart_data = data['gender']['charts']
+            console.log(chart_data)
+            var labels = chart_data['headers']
+            console.log('first chart')
+            new Chart(
+                $('#demographics' + ' .chart-left'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                data: chart_data['data'].map(row => row.Field0),
+                                backgroundColor: chart_data['data'].map(row => '#6184d8'),
+                                borderColor: chart_data['data'].map(row => '#6184d8')
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y'
+                    }
+                }
+                )
+
+            var chart_data = data['ethnicity']['charts']
+            var labels = chart_data['headers']
+            console.log('second chart')
+            new Chart(
+                $('#demographics' + ' .chart-right'),
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: chart_data['data'].map(row => row.x_axis),
+                            datasets: [
+                                {
+                                    label: labels[0],
+                                    data: chart_data['data'].map(row => row.Field0),
+                                    backgroundColor: chart_data['data'].map(row => '#6184d8')
+                                }
+                            ],
+                        },
+                        options: {
+                            indexAxis: 'y'
+                        }
+                    }
+                )
+
+
+        }
+    )
+}
+
 function loadBlurb(unitid) {
-    console.log('load blurb triggered')
     $('#blurb').empty()
 
     var query = request_stem + '/narrative?unitid=' + unitid;
-    console.log(query)
-
-    console.log('sending blurb...')
 
     $.get(query, 
         function(data) {
@@ -201,16 +265,12 @@ function loadNews(unitid) {
 
     var query = request_stem + '/news?unitid=' + unitid;
 
-    console.log('sending news...')
-
     $.get(query, 
         function(data) {
-            console.log(data)
             var articles = data['news_results']
 
             for (var i=0; i<9; i++) {
                 article = articles[i]
-                console.log(article)
 
                 $('#news-list').append(
                     `
@@ -241,11 +301,8 @@ function generateCompletions() {
 
     var query = request_stem + '/search?q=' + $('.college-search-input').val();
 
-    console.log('sending...')
-
     $.getJSON(query, 
         function(data) {
-            console.log(data)
             var results = data['completions']
 
             for (var i=0; i<results.length; i++) {
@@ -277,7 +334,7 @@ function generateCompletions() {
 $(function() {
 
     var unitid = 204501;
-    loadSection(unitid, 'enrollment')
+    loadSection(unitid, 'demographics')
     loadBlurb(unitid)
 
     /* set open and close states initially */
@@ -309,7 +366,6 @@ $(function() {
             $(e.currentTarget.parentElement).children('.chart-wrapper').children('.chart').each(function() {
                 var curr_chart = Chart.getChart(this)
                 curr_chart.destroy()
-                console.log(curr_chart + 'cleared')
             })
         }
     })

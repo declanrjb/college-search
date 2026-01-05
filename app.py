@@ -224,14 +224,24 @@ def retrieve_enroll_totals(unitid):
     return result
 
 def retrieve_demos(unitid):
-    data = pd.read_csv('data/demographics.csv')
-    data = data[data['UNITID'].apply(lambda x: x == unitid)]
-    data = data.drop('UNITID', axis=1)
-    df = data
+    gender = pd.read_csv('data/gender.csv')
+    gender = gender[gender['UNITID'].apply(lambda x: x == unitid)]
+    gender = gender.drop('UNITID', axis=1)
 
-    result = {}
-    result['charts'] = make_chart_data(df, 'Demographic', ['Students'])
-    result['data'] = df.to_html(index=False, escape=False)
+    ethnicity = pd.read_csv('data/ethnicity.csv')
+    ethnicity = ethnicity[ethnicity['UNITID'].apply(lambda x: x == unitid)]
+    ethnicity = ethnicity.drop('UNITID', axis=1)   
+
+    result = {
+        'gender': {
+            'data': gender.to_html(index=False, escape=False),
+            'charts': make_chart_data(gender, 'Demographic', ['Students'])
+        },
+        'ethnicity': {
+            'data': ethnicity.to_html(index=False, escape=False),
+            'charts': make_chart_data(ethnicity, 'Demographic', ['Students'])
+        }
+    }
 
     return result
 
@@ -373,6 +383,17 @@ def enrollment():
     unitid = int(request.args['unitid'])
 
     response = retrieve_enroll_totals(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/demographics')
+def demographics():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_demos(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
