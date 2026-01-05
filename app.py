@@ -209,13 +209,16 @@ def retrieve_admissions_stats(unitid):
     return result
 
 def retrieve_enroll_totals(unitid):
-    data = pd.read_csv('data/enroll-total.csv')
+    data = pd.read_csv('data/enrollment.csv')
     data = data[data['UNITID'].apply(lambda x: x == unitid)]
     data = data.drop('UNITID', axis=1)
     df = data
 
     result = {}
-    result['charts'] = make_chart_data(df, 'YEAR', ['Total Students'])
+    result['charts'] = [
+        make_chart_data(df, 'YEAR', ['undergraduate', 'graduate']),
+        make_chart_data(df, 'YEAR', ['first_year'])
+    ]
     result['data'] = df.to_html(index=False, escape=False)
 
     return result
@@ -369,13 +372,7 @@ def narrative():
 def enrollment():
     unitid = int(request.args['unitid'])
 
-    enrollment = retrieve_enroll_totals(unitid)
-    demographics = retrieve_demos(unitid)
-
-    response = {
-        'enrollment': enrollment,
-        'demographics': demographics
-    }
+    response = retrieve_enroll_totals(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')

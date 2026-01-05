@@ -737,60 +737,50 @@ function loadSection(unitid, section) {
         var query = request_stem + '/' + section + '?unitid=' + unitid;
         console.log('sending ' + section);
         $.get(query, function(data) {
-            console.log(data);
             $(dataHolderId).append('<div class="enroll-table"></div>');
             $(dataHolderId).append('<div class="demo-table"></div>');
-            $('.enroll-table').html(data['enrollment']['data']);
-            $('.demo-table').html(data['demographics']['data']);
-            // $(dataHolderId).html(data['data']);
-            // // make charts
-            // var chart_data = data['charts']['data']
-            // console.log(chart_data)
-            // var labels = data['charts']['headers']
-            // console.log('first chart')
-            // new Chart(
-            //     $('#' + section + ' .chart-left'),
-            //     {
-            //         type: chart_types[section],
-            //         data: {
-            //         labels: chart_data.map(row => row.x_axis),
-            //         datasets: [
-            //             {
-            //                 label: labels[0],
-            //                 data: chart_data.map(row => row.Field0),
-            //                 backgroundColor: chart_data.map(row => row.Color0),
-            //                 borderColor: chart_data.map(row => row.Color0)
-            //             }
-            //         ]
-            //         }
-            //     }
-            //     )
-            var chart_data = data['enrollment']['charts']['data'];
-            var labels = data['enrollment']['charts']['headers'];
-            console.log('second chart');
+            $(dataHolderId).html(data['data']);
+            var chart_data = data['charts'][0];
+            console.log(chart_data);
+            var labels = chart_data['headers'];
+            console.log('first chart');
             new (0, _autoDefault.default)($('#' + section + ' .chart-left'), {
                 type: 'bar',
                 data: {
-                    labels: chart_data.map((row)=>row.x_axis),
+                    labels: chart_data['data'].map((row)=>row.x_axis),
                     datasets: [
                         {
                             label: labels[0],
-                            data: chart_data.map((row)=>row.Field0)
+                            data: chart_data['data'].map((row)=>row.Field0)
+                        },
+                        {
+                            label: labels[1],
+                            data: chart_data['data'].map((row)=>row.Field1)
                         }
                     ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    }
                 }
             });
-            var chart_data = data['demographics']['charts']['data'];
-            var labels = data['demographics']['charts']['headers'];
+            var chart_data = data['charts'][1];
+            var labels = chart_data['headers'];
             console.log('second chart');
             new (0, _autoDefault.default)($('#' + section + ' .chart-right'), {
-                type: 'radar',
+                type: 'bar',
                 data: {
-                    labels: chart_data.map((row)=>row.x_axis),
+                    labels: chart_data['data'].map((row)=>row.x_axis),
                     datasets: [
                         {
                             label: labels[0],
-                            data: chart_data.map((row)=>row.Field0)
+                            data: chart_data['data'].map((row)=>row.Field0)
                         }
                     ]
                 }
