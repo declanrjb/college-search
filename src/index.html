@@ -12,18 +12,23 @@
 <body>
     <div class="interface-main">
         <column id="left-col">
-            <div class="info-box">
-                <h2><i class="fa-solid fa-graduation-cap"></i> UniData</h2>
-                <p>UniData is a higher education focused data search engine intended for use by education reporters and data journalists. UniData is a project developed by Declan Bradley, supported by data from the Common Data Set, National Center for Education Statistics,
-                    and ProPublica, among others.
-                </p>
-            </div>
             <div class="search-box">
                 <input type="text" class="college-search-input" placeholder="Oberlin College">
                 <div class="search-button"><i class="fa-solid fa-magnifying-glass"></i></div>
             </div>
             <div class="completions-holder"></div>
             <div id="blurb"></div>
+            <div class="info-box">
+                <h2 class="info-box-header"><i class="fa-solid fa-circle-info"></i> UniData</h2>
+                <div class="info-box-content">
+                    <p>UniData is a higher education data search engine developed by Declan Bradley. It relies on data from:</p>
+                    <ul>
+                        <li>ProPublica</li>
+                        <li>The Common Dataset</li>
+                        <li>The U.S. Department of Education</li>
+                    </ul>
+                </div>
+            </div>
         </column>
         <column id="right-col">
             <div class="subsections">
@@ -52,7 +57,10 @@
                     </div>
                     <div class="chart-wrapper" id="demo-chart-left"><canvas class="chart chart-left"></canvas></div>
                     <div class="chart-wrapper" id="demo-chart-right"><canvas class="chart chart-right"></canvas></div>
-                    <div class="data-holder"></div>
+                    <div class="data-holder">
+                        <div id="ethnicity-table"></div>
+                        <div id="gender-table"></div>
+                    </div>
                 </div>
                 <div class="subsection" id="propublica" open="false">
                     <div class="subsection-header">
@@ -65,7 +73,7 @@
                 </div>
                 <div class="subsection" id="officers" open="false">
                     <div class="subsection-header">
-                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Top Officers</h2>
+                        <h2 class="subsection-title"><i id="subsec-arrow" class="fa-solid fa-caret-right"></i> Highest Paid Employees</h2>
                         <hr>
                     </div>
                     <div class="data-holder"></div>

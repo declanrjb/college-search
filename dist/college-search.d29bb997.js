@@ -717,13 +717,14 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-var request_stem = 'http://127.0.0.1:5000';
-// var request_stem = 'https://college-search.onrender.com'
+// var request_stem = 'http://127.0.0.1:5000'
+var request_stem = 'https://college-search.onrender.com';
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line'
 };
 function loadSection(unitid, section) {
+    console.log(section);
     $('#' + section).children('.chart-wrapper').children('.chart').each(function() {
         var curr_chart = (0, _autoDefault.default).getChart(this);
         if (curr_chart) curr_chart.destroy();
@@ -839,7 +840,7 @@ function loadEnrollment(unitid) {
                 ]
             },
             options: {
-                indexAxis: 'y'
+                indexAxis: 'x'
             }
         });
     });
@@ -848,15 +849,11 @@ function loadDemographics(unitid) {
     var dataHolderId = "#demographics .data-holder";
     $(dataHolderId).empty();
     var query = request_stem + '/demographics' + '?unitid=' + unitid;
-    console.log('sending demo query');
     $.get(query, function(data) {
-        $(dataHolderId).html(data['data']);
         console.log(data);
         var chart_data = data['gender']['charts'];
-        console.log(chart_data);
         var labels = chart_data['headers'];
-        console.log('first chart');
-        new (0, _autoDefault.default)($("#demographics .chart-left"), {
+        new (0, _autoDefault.default)($("#demographics .chart-right"), {
             type: 'bar',
             data: {
                 labels: chart_data['data'].map((row)=>row.x_axis),
@@ -870,13 +867,12 @@ function loadDemographics(unitid) {
                 ]
             },
             options: {
-                indexAxis: 'y'
+                indexAxis: 'x'
             }
         });
         var chart_data = data['ethnicity']['charts'];
         var labels = chart_data['headers'];
-        console.log('second chart');
-        new (0, _autoDefault.default)($("#demographics .chart-right"), {
+        new (0, _autoDefault.default)($("#demographics .chart-left"), {
             type: 'bar',
             data: {
                 labels: chart_data['data'].map((row)=>row.x_axis),
@@ -892,6 +888,9 @@ function loadDemographics(unitid) {
                 indexAxis: 'y'
             }
         });
+        $(dataHolderId).append('<div id="ethnicity-table"></div><div id="gender-table"></div>');
+        $('#gender-table').html(data['gender']['data']);
+        $('#ethnicity-table').html(data['ethnicity']['data']);
     });
 }
 function loadBlurb(unitid) {
@@ -981,6 +980,10 @@ $(function() {
     });
     $('.college-search-input').on('click', function(e) {
         $(e.currentTarget).val('');
+    });
+    $('.info-box').on('click', function() {
+        if ($('.info-box-content').is(':visible')) $('.info-box-content').css('display', 'none');
+        else $('.info-box-content').css('display', 'block');
     });
 });
 

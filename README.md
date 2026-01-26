@@ -2,6 +2,9 @@ https://serpapi.com/google-news-api
 
 https://www.collegetransitions.com/dataverse/common-data-set-repository
 
+# to-do
+- clery data
+
 # useful directory columns
 CITY
 STABBR

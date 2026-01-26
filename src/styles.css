@@ -127,11 +127,13 @@ th {
 
 .info-box {
     box-shadow: 0 1px 5px #666;
-    border-radius: 20px;
     background-color: white;
-    padding: 10px;
-    margin-bottom: 20px;
-    display: none;
+    padding: 20px;
+    position: fixed;
+    left: 20px;
+    bottom: 0px;
+    width: 22%;
+    line-height: 1.5em;
 }
 
 .info-box h2 {
@@ -152,6 +154,7 @@ th {
     margin: 10px;
     margin-bottom: 20px;
     float: left;
+    height: 250px;
 }
 
 span {
@@ -176,10 +179,29 @@ span {
     color: white;
 }
 
+.chart {
+    height: 100%;
+    width: 100%;
+}
+
 #demo-chart-left {
-    width: calc(40% - 20px);
+    width: calc(50% - 20px);
 }
 
 #demo-chart-right {
-    width: calc(60% - 20px);
+    width: calc(50% - 20px);
+}
+
+.chart-row {
+    min-height: 300px;
+}
+
+table {
+    margin: 20px;
+}
+
+.info-box ul {
+    padding-left: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
