@@ -1,23 +1,5 @@
-https://serpapi.com/google-news-api
+UniData is a higher education data search engine developed by Declan Bradley. It is intended for use by education reporters or data journalists seeking high level summary data on accredited institutions of higher education in the United States. Many thanks are due to the following, from whom raw data is available:
 
-https://www.collegetransitions.com/dataverse/common-data-set-repository
-
-# to-do
-- clery data
-
-# useful directory columns
-CITY
-STABBR
-CHFNM
-CHFTITLE
-INSTNM
-WEBADDR
-SECTOR
-ICLEVEL
-CONTROL
-HBCU
-UGOFFER
-GROFFER
-HDEGOFR1
-LOCALE
-INSTSIZE
+- ProPublica
+- The Common Dataset
+- The U.S. Department of Education
