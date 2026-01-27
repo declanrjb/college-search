@@ -1,3 +1,7 @@
 *.env
 .DS_Store
-data/ipeds/*
+data/raw/*
+.parcel-cache
+__pycache__
+/.parcel-cache
+.parcel-cache/data.mdb
