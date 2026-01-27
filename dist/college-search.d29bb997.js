@@ -932,19 +932,20 @@ function generateCompletions() {
         $('.completion').on('click', function(e) {
             var unitid = e.currentTarget.getAttribute('unitid');
             $('.college-search-input').val(e.currentTarget.textContent.trim());
+            $('.college-search-input').attr('unitid', unitid);
             $('.completions-holder').empty();
             //loadNews(unitid)
             loadBlurb(unitid);
-            $('.subsection[open="true"]').each(function(index) {
+            $('.subsection').each(function(index) {
                 loadSection(unitid, $(this).attr('id'));
             });
         });
     });
 }
 $(function() {
-    var unitid = 204501;
-    loadSection(unitid, 'demographics');
-    loadBlurb(unitid);
+    $('.college-search-input').attr('unitid', 204501);
+    loadSection($('.college-search-input').attr('unitid'), 'admissions');
+    loadBlurb($('.college-search-input').attr('unitid'));
     /* set open and close states initially */ $('.subsection[open="false"] .data-holder').css('display', 'none');
     $('.subsection[open="false"] .chart-wrapper').css('display', 'none');
     $('.subsection[open="false"] #subsec-arrow').attr('class', 'fa-solid fa-caret-right');
@@ -957,7 +958,7 @@ $(function() {
             $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'block');
             e.currentTarget.parentElement.setAttribute('open', 'true');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down');
-            loadSection(unitid, e.currentTarget.parentElement.getAttribute('id'));
+            loadSection($('.college-search-input').attr('unitid'), e.currentTarget.parentElement.getAttribute('id'));
         } else {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none');
             $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'none');
