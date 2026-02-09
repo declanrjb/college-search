@@ -26,7 +26,7 @@ from io import StringIO
 
 from serpapi import GoogleSearch
 
-directory = pd.read_csv('data/raw/ipeds/HD2024.csv')
+directory = pd.read_csv('data/web/HD2024.csv')
 
 def search_directory(query):
     query = query.lower().strip()

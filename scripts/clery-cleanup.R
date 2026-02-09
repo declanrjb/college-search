@@ -157,6 +157,17 @@ df <- data_files |>
   do.call(rbind, .) |>
   unique()
 
+# split out bias motivation
+df <- df |> 
+  mutate(
+    bias = str_split_i(crime, '_', 2), 
+    crime = str_split_i(crime, '_', 1)
+  )
+
+temp <- df
+
+df <- temp
+
 # update crime names
 df <- df |>
   filter(crime != 'FILTER') |>
@@ -165,16 +176,34 @@ df <- df |>
       crime == 'MURD' ~ 'Murder',
       crime == 'NEG_M' ~ 'Negligent Manslaughter',
       crime == 'RAPE' ~ 'Rape',
-      crime == 'FONDL' ~ 'Fondling',
-      crime == 'INCES' ~ 'Incest',
-      crime == 'STATR' ~ 'Statuatory Rape',
+      crime == 'FOND' ~ 'Fondling',
+      crime == 'INCE' ~ 'Incest',
+      crime == 'STAT' ~ 'Statuatory Rape',
       crime == 'ROBBE' ~ 'Robbery',
-      crime == 'AGG_A' ~ 'Aggravated Assault',
+      crime == 'AGG' ~ 'Aggravated Assault',
       crime == 'BURGLA' ~ 'Burglary',
       crime == 'VEHIC' ~ 'Motor Vehicle Theft',
-      crime == 'ARSON' ~ 'Arson'
+      crime == 'ARSON' ~ 'Arson',
+      crime == 'SIM' ~ 'Simple Assault',
+      crime == 'LAR' ~ 'Larceny',
+      crime == 'INTIM' ~ 'Intimidation',
+      crime == 'VANDAL' ~ 'Vandalism'
     )
   )
+
+df |>
+  filter(!is.na(bias)) |>
+  filter(!(bias %in% c('A', 'T')))
+  mutate(bias = case_when(
+    bias == 'RAC' ~ 'Race',
+    bias == 'REL' ~ 'Religion',
+    bias == 'SEX' ~ 'Sexual Orientation',
+    bias == 'GEN' ~ 'Gender',
+    bias == 'GID' ~ 'Gender Identity',
+    bias == 'DIS' ~ 'Disability',
+    bias == 'ET' ~ 'Ethnicity',
+    bias == 'NAT' ~ 'National Origin'
+  ))
 
 df <- df |>
   select(unitid, inst_name, year, crime, occurrences) |>
