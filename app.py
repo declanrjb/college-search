@@ -26,7 +26,7 @@ from io import StringIO
 
 from serpapi import GoogleSearch
 
-directory = pd.read_csv('data/HD2024.csv')
+directory = pd.read_csv('data/raw/ipeds/HD2024.csv')
 
 def search_directory(query):
     query = query.lower().strip()
@@ -197,7 +197,7 @@ def retrieve_top_officers(unitid):
     return result
 
 def retrieve_admissions_stats(unitid):
-    adm_data = pd.read_csv('data/admissions.csv')
+    adm_data = pd.read_csv('data/web/admissions.csv')
     adm_data = adm_data[adm_data['UNITID'].apply(lambda x: x == unitid)]
     adm_data = adm_data.drop('UNITID', axis=1)
     df = adm_data
@@ -209,7 +209,7 @@ def retrieve_admissions_stats(unitid):
     return result
 
 def retrieve_enroll_totals(unitid):
-    data = pd.read_csv('data/enrollment.csv')
+    data = pd.read_csv('data/web/enrollment.csv')
     data = data[data['UNITID'].apply(lambda x: x == unitid)]
     data = data.drop('UNITID', axis=1)
     df = data
@@ -224,11 +224,11 @@ def retrieve_enroll_totals(unitid):
     return result
 
 def retrieve_demos(unitid):
-    gender = pd.read_csv('data/gender.csv')
+    gender = pd.read_csv('data/web/gender.csv')
     gender = gender[gender['UNITID'].apply(lambda x: x == unitid)]
     gender = gender.drop('UNITID', axis=1)
 
-    ethnicity = pd.read_csv('data/ethnicity.csv')
+    ethnicity = pd.read_csv('data/web/ethnicity.csv')
     ethnicity = ethnicity[ethnicity['UNITID'].apply(lambda x: x == unitid)]
     ethnicity = ethnicity.drop('UNITID', axis=1)   
 
@@ -273,7 +273,7 @@ def retrieve_recent_news(unitid):
     return results
 
 def retrieve_narrative_desc(unitid):
-    directory = pd.read_csv('data/directory.csv')
+    directory = pd.read_csv('data/web/directory.csv')
     data = directory[directory['UNITID'].apply(lambda x: x == unitid)].to_dict(orient='records')[0]
 
     desc = f"""
@@ -286,6 +286,33 @@ def retrieve_narrative_desc(unitid):
     return {
         'data': desc
     }
+
+def retrieve_crime(unitid):
+    data = pd.read_csv('data/web/campus-crime.csv')
+    data = data[data['unitid'].apply(lambda x: x == unitid)]
+    data = data.drop('unitid', axis=1)
+    df = data
+
+    result = {}
+    result['charts'] = [
+        make_chart_data(df, 'Year', ['Murder', 'Robbery', 'Aggravated Assault', 'Burglary', 'Motor Vehicle Theft', 'Arson']),
+        make_chart_data(df, 'Year', ['Rape', 'Fondling', 'Incest', 'Statuatory Rape'])
+    ]
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
+
+def retrieve_discipline(unitid):
+    data = pd.read_csv('data/web/discipline.csv')
+    data = data[data['unitid'].apply(lambda x: x == unitid)]
+    data = data.drop('unitid', axis=1)
+    df = data
+
+    result = {}
+    result['charts'] = make_chart_data(df, 'Year', ['Liquor Law Violation', 'Drug Law Violation'])
+    result['data'] = df.to_html(index=False, escape=False)
+
+    return result
 
 # begin app definition
 app = Flask(__name__)
@@ -394,6 +421,28 @@ def demographics():
     unitid = int(request.args['unitid'])
 
     response = retrieve_demos(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/crime')
+def crime():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_crime(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/discipline')
+def discipline():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_discipline(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')

@@ -31,6 +31,23 @@ read_clery_file <- function(file) {
     ) |>
   select(unitid, year, inst_name, crime, occurrences)
   
+  # drop unitids that have multiple branches
+  df <- df |> 
+    mutate(unitid_prime = substr(unitid, 0, 6))
+  
+  unique_unitids <- df |>
+    group_by(unitid_prime) |> 
+    summarize(unitid_variants = length(unique(unitid))) |> 
+    filter(unitid_variants == 1) |>
+    pull(unitid_prime)
+
+  df <- df |>
+    filter(unitid_prime %in% unique_unitids)
+  
+  df <- df |>
+    mutate(unitid = substr(unitid, 0, 6)) |>
+    select(!unitid_prime)
+
   return(df)
 }
 
@@ -87,9 +104,12 @@ df |>
 crime_matrix <- df |> 
   pivot_wider(id_cols=c('unitid', 'year', 'inst_name'), names_from='crime', values_from='occurrences')
 
+crime_matrix <- crime_matrix |>
+  select(unitid, year, Murder, `Negligent Manslaughter`, Robbery, `Aggravated Assault`, Burglary, `Motor Vehicle Theft`, Arson, Rape, Fondling, Incest, `Statuatory Rape`)
+
 crime_matrix |>
-  select(!inst_name) |>
   rename(Year = year) |>
+  arrange(desc(Year)) |>
   write.csv('data/web/campus-crime.csv', row.names=FALSE)
 
 # retrieve discipline
@@ -110,3 +130,63 @@ discipline_df <- discipline_df |>
       crime == 'LIQUOR' ~ 'Liquor Law Violation'
     )
   )
+
+discipline_df <- discipline_df |>
+  select(unitid, inst_name, year, crime, occurrences) |>
+  unique()
+
+discipline_df |>
+  write.csv('data/tidy/discipline.csv', row.names=FALSE)
+
+discipline_matrix <- discipline_df |> 
+  pivot_wider(id_cols=c('unitid', 'year', 'inst_name'), names_from='crime', values_from='occurrences')
+
+discipline_matrix |>
+  select(!inst_name) |>
+  rename(Year = year) |>
+  arrange(desc(Year)) |>
+  write.csv('data/web/discipline.csv', row.names=FALSE)
+
+# hate incidents
+data_files <- files_df |> 
+  filter(name == 'oncampushate', extension == 'xlsx') |> 
+  pull(path)
+
+df <- data_files |>
+  lapply(read_clery_file) %>%
+  do.call(rbind, .) |>
+  unique()
+
+# update crime names
+df <- df |>
+  filter(crime != 'FILTER') |>
+  mutate(
+    crime = case_when(
+      crime == 'MURD' ~ 'Murder',
+      crime == 'NEG_M' ~ 'Negligent Manslaughter',
+      crime == 'RAPE' ~ 'Rape',
+      crime == 'FONDL' ~ 'Fondling',
+      crime == 'INCES' ~ 'Incest',
+      crime == 'STATR' ~ 'Statuatory Rape',
+      crime == 'ROBBE' ~ 'Robbery',
+      crime == 'AGG_A' ~ 'Aggravated Assault',
+      crime == 'BURGLA' ~ 'Burglary',
+      crime == 'VEHIC' ~ 'Motor Vehicle Theft',
+      crime == 'ARSON' ~ 'Arson'
+    )
+  )
+
+df <- df |>
+  select(unitid, inst_name, year, crime, occurrences) |>
+  unique()
+
+df |>
+  write.csv('data/tidy/hate.csv', row.names=FALSE)
+
+crime_matrix <- df |> 
+  pivot_wider(id_cols=c('unitid', 'year', 'inst_name'), names_from='crime', values_from='occurrences')
+
+crime_matrix |>
+  select(!inst_name) |>
+  rename(Year = year) |>
+  write.csv('data/web/hate.csv', row.names=FALSE)

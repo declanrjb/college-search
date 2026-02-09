@@ -77,7 +77,7 @@ tr {
 }
 
 tr:hover {
-    background-color: lightblue !important;
+    background-color: lightgrey !important;
 }
 
 td, th {

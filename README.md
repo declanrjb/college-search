@@ -2,4 +2,4 @@ UniData is a higher education data search engine developed by Declan Bradley. It
 
 - ProPublica
 - The Common Dataset
-- The U.S. Department of Education
+- The U.S. Department of Educatio

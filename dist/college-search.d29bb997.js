@@ -717,11 +717,12 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-// var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com';
+var request_stem = 'http://127.0.0.1:5000';
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
-    'admissions': 'line'
+    'admissions': 'line',
+    'discipline': 'bar'
 };
 function loadSection(unitid, section) {
     console.log(section);
@@ -733,7 +734,9 @@ function loadSection(unitid, section) {
     else if (section == 'news') loadNews(unitid);
     else if (section == 'enrollment') loadEnrollment(unitid);
     else if (section == 'demographics') loadDemographics(unitid);
+    else if (section == 'crime') loadCrime(unitid);
     else {
+        console.log('other condition triggered');
         var dataHolderId = '#' + section + ' .data-holder';
         $(dataHolderId).empty();
         var query = request_stem + '/' + section + '?unitid=' + unitid;
@@ -845,6 +848,115 @@ function loadEnrollment(unitid) {
         });
     });
 }
+function loadCrime(unitid) {
+    var dataHolderId = "#crime .data-holder";
+    $(dataHolderId).empty();
+    var query = request_stem + '/crime' + '?unitid=' + unitid;
+    $.get(query, function(data) {
+        $("#crime .data-holder").html(data['data']);
+        var chart_data = data['charts'][0];
+        var labels = chart_data['headers'];
+        new (0, _autoDefault.default)($("#crime .chart-left"), {
+            type: 'bar',
+            data: {
+                labels: chart_data['data'].map((row)=>row.x_axis),
+                datasets: [
+                    {
+                        label: labels[0],
+                        data: chart_data['data'].map((row)=>row.Field0),
+                        backgroundColor: chart_data['data'].map((row)=>'#6184d8'),
+                        borderColor: chart_data['data'].map((row)=>'#6184d8')
+                    },
+                    {
+                        label: labels[1],
+                        data: chart_data['data'].map((row)=>row.Field1),
+                        backgroundColor: chart_data['data'].map((row)=>'#ff6663'),
+                        borderColor: chart_data['data'].map((row)=>'#ff6663')
+                    },
+                    {
+                        label: labels[2],
+                        data: chart_data['data'].map((row)=>row.Field2),
+                        backgroundColor: chart_data['data'].map((row)=>'#fce694'),
+                        borderColor: chart_data['data'].map((row)=>'#fce694')
+                    },
+                    {
+                        label: labels[3],
+                        data: chart_data['data'].map((row)=>row.Field3),
+                        backgroundColor: chart_data['data'].map((row)=>'#0beabd'),
+                        borderColor: chart_data['data'].map((row)=>'#0beabd')
+                    },
+                    {
+                        label: labels[4],
+                        data: chart_data['data'].map((row)=>row.Field4),
+                        backgroundColor: chart_data['data'].map((row)=>'#e3b505'),
+                        borderColor: chart_data['data'].map((row)=>'#e3b505')
+                    },
+                    {
+                        label: labels[5],
+                        data: chart_data['data'].map((row)=>row.Field5),
+                        backgroundColor: chart_data['data'].map((row)=>'#2f4858'),
+                        borderColor: chart_data['data'].map((row)=>'#2f4858')
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        });
+        var chart_data = data['charts'][1];
+        var labels = chart_data['headers'];
+        new (0, _autoDefault.default)($("#crime .chart-right"), {
+            type: 'bar',
+            data: {
+                labels: chart_data['data'].map((row)=>row.x_axis),
+                datasets: [
+                    {
+                        label: labels[0],
+                        data: chart_data['data'].map((row)=>row.Field0),
+                        backgroundColor: chart_data['data'].map((row)=>'#6184d8'),
+                        borderColor: chart_data['data'].map((row)=>'#6184d8')
+                    },
+                    {
+                        label: labels[1],
+                        data: chart_data['data'].map((row)=>row.Field1),
+                        backgroundColor: chart_data['data'].map((row)=>'#ff6663'),
+                        borderColor: chart_data['data'].map((row)=>'#ff6663')
+                    },
+                    {
+                        label: labels[2],
+                        data: chart_data['data'].map((row)=>row.Field2),
+                        backgroundColor: chart_data['data'].map((row)=>'#fce694'),
+                        borderColor: chart_data['data'].map((row)=>'#fce694')
+                    },
+                    {
+                        label: labels[3],
+                        data: chart_data['data'].map((row)=>row.Field3),
+                        backgroundColor: chart_data['data'].map((row)=>'#0beabd'),
+                        borderColor: chart_data['data'].map((row)=>'#0beabd')
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'x',
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        });
+    });
+}
 function loadDemographics(unitid) {
     var dataHolderId = "#demographics .data-holder";
     $(dataHolderId).empty();
@@ -944,7 +1056,7 @@ function generateCompletions() {
 }
 $(function() {
     $('.college-search-input').attr('unitid', 204501);
-    loadSection($('.college-search-input').attr('unitid'), 'admissions');
+    // loadSection($('.college-search-input').attr('unitid'), 'admissions')
     loadBlurb($('.college-search-input').attr('unitid'));
     /* set open and close states initially */ $('.subsection[open="false"] .data-holder').css('display', 'none');
     $('.subsection[open="false"] .chart-wrapper').css('display', 'none');
