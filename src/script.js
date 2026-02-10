@@ -29,10 +29,9 @@ function loadSection(unitid, section) {
         loadDemographics(unitid)
     } else if (section == 'crime') {
         loadCrime(unitid)
+    } else if (section == 'hate') {
+        loadHate(unitid)
     } else {
-
-        console.log('other condition triggered')
-
         var dataHolderId = '#' + section + ' .data-holder'
 
         $(dataHolderId).empty()
@@ -40,6 +39,8 @@ function loadSection(unitid, section) {
     
         $.get(query, 
             function(data) {
+
+                console.log(data)
 
                 $(dataHolderId).html(data['data']);
                 // make charts
@@ -181,6 +182,92 @@ function loadEnrollment(unitid) {
                     },
                     options: {
                         indexAxis: 'x'
+                    }
+                }
+                )
+
+
+        }
+    )
+}
+
+function loadHate(unitid) {
+    var dataHolderId = '#hate' + ' .data-holder'
+
+    $(dataHolderId).empty()
+    var query = request_stem + '/hate' + '?unitid=' + unitid;
+
+    $.get(query, 
+        function(data) {
+
+            $(dataHolderId).append('<div class="enroll-table"></div>')
+            $(dataHolderId).append('<div class="demo-table"></div>')
+
+            $(dataHolderId).html(data['data'])
+
+            var chart_data = data['charts'][0]
+            var labels = chart_data['headers']
+            var colors = ['#6184d8', '#ff6663', 'fce694', '0beabd', 'e3b505', '2f4858']
+
+            new Chart(
+                $('#hate' + ' .chart-left'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: Array.from(Array(labels.length).keys()).map(
+                            index => (
+                                {
+                                    label: labels[index],
+                                    data: chart_data['data'].map(row => row['Field' + index]),
+                                    backgroundColor: chart_data['data'].map(row => colors[index]),
+                                    borderColor: chart_data['data'].map(row => colors[index])
+                                }
+                            )
+                        )
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                }
+                )
+
+            var chart_data = data['charts'][1]
+            var labels = chart_data['headers']
+
+            new Chart(
+                $('#hate' + ' .chart-right'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: Array.from(Array(labels.length).keys()).map(
+                            index => (
+                                {
+                                    label: labels[index],
+                                    data: chart_data['data'].map(row => row['Field' + index]),
+                                    backgroundColor: chart_data['data'].map(row => colors[index]),
+                                    borderColor: chart_data['data'].map(row => colors[index])
+                                }
+                            )
+                        )
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        }
                     }
                 }
                 )

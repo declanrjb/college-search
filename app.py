@@ -223,6 +223,25 @@ def retrieve_enroll_totals(unitid):
 
     return result
 
+def retrieve_hate(unitid):
+    data_bias = pd.read_csv('data/web/hate-by-bias.csv')
+    data_crime = pd.read_csv('data/web/hate-by-crime.csv')
+
+    data_bias = data_bias[data_bias['unitid'].apply(lambda x: x == unitid)]
+    data_bias = data_bias.drop('unitid', axis=1)
+
+    data_crime = data_crime[data_crime['unitid'].apply(lambda x: x == unitid)]
+    data_crime = data_crime.drop('unitid', axis=1)
+
+    result = {}
+    result['charts'] = [
+        make_chart_data(data_crime, 'Year', ['Aggravated Assault', 'Intimidation', 'Larceny', 'Simple Assault', 'Vandalism']),
+        make_chart_data(data_bias, 'Year', ['Disability', 'Ethnicity', 'Gender', 'Gender Identity', 'National Origin', 'Race', 'Religion', 'Sexual Orientation'])
+    ]
+    result['data'] = data_bias.to_html(index=False, escape=False)
+
+    return result
+
 def retrieve_demos(unitid):
     gender = pd.read_csv('data/web/gender.csv')
     gender = gender[gender['UNITID'].apply(lambda x: x == unitid)]
@@ -443,6 +462,17 @@ def discipline():
     unitid = int(request.args['unitid'])
 
     response = retrieve_discipline(unitid)
+
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/hate')
+def hate():
+    unitid = int(request.args['unitid'])
+
+    response = retrieve_hate(unitid)
 
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')

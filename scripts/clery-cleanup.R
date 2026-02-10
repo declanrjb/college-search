@@ -259,7 +259,7 @@ web_df <- df |>
 crime_matrix <- web_df |> 
   group_by(unitid, inst_name, year, crime) |> 
   summarize(occurrences = sum(occurrences)) |>
-  pivot_wider(id_cols=c('unitid', 'inst_name', 'year'), names_from='crime', values_from='occurrences') |>
+  pivot_wider(id_cols=c('unitid', 'year'), names_from='crime', values_from='occurrences') |>
   rename(Year = year)
 
 crime_matrix |>
@@ -268,8 +268,9 @@ crime_matrix |>
 bias_matrix <- web_df |> 
   group_by(unitid, inst_name, year, bias) |> 
   summarize(occurrences = sum(occurrences)) |>
-  pivot_wider(id_cols=c('unitid', 'inst_name', 'year'), names_from='bias', values_from='occurrences') |>
+  pivot_wider(id_cols=c('unitid', 'year'), names_from='bias', values_from='occurrences') |>
   rename(Year = year)
 
 bias_matrix |>
   write.csv('data/web/hate-by-bias.csv', row.names=FALSE)
+
