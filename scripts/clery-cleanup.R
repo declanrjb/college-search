@@ -165,9 +165,42 @@ df <- temp
 # split out bias motivation
 df <- df |> 
   mutate(
+    crime_original = crime,
     bias = str_split_i(crime, '_', -1), 
     crime = str_split_i(crime, '_', 1)
   )
+
+# drop the overall rows that have no specified motivation
+df <- df |> 
+  filter(crime != bias)
+
+# check lines to make sure these split artifacts aren't meaningful
+df |> 
+  filter(bias == 'A') |> 
+  pull(crime_original) |> 
+  unique()
+
+df |> 
+  filter(bias == 'T') |> 
+  pull(crime_original) |> 
+  unique()
+
+# they are not
+# this also confirms that those lines are overall lines, and we're not dropping a demographic
+df <- df |>
+  filter(!(bias %in% c('A', 'T')))
+
+# if this is correct, there should be the same number of crimes for each demographic and the same number of demos for each crime
+# crimes per bias passes checks
+df |> 
+  group_by(bias) |> 
+  summarize(crimes = length(unique(crime)))
+
+# biases per crime passes check
+df |> 
+  group_by(crime) |> 
+  summarize(crimes = length(unique(bias)))
+# safe to proceed
 
 # update crime names
 df <- df |>
