@@ -225,9 +225,9 @@ df <- df |>
     )
   )
 
-df |>
+df <- df |>
   filter(!is.na(bias)) |>
-  filter(!(bias %in% c('A', 'T')))
+  filter(!(bias %in% c('A', 'T'))) |>
   mutate(bias = case_when(
     bias == 'RAC' ~ 'Race',
     bias == 'REL' ~ 'Religion',
@@ -240,16 +240,36 @@ df |>
   ))
 
 df <- df |>
-  select(unitid, inst_name, year, crime, occurrences) |>
+  select(unitid, inst_name, year, crime, bias, occurrences) |>
   unique()
 
 df |>
-  write.csv('data/tidy/hate.csv', row.names=FALSE)
+  write.csv('data/tidy/hate-incidents.csv', row.names=FALSE)
 
-crime_matrix <- df |> 
-  pivot_wider(id_cols=c('unitid', 'year', 'inst_name'), names_from='crime', values_from='occurrences')
+most_common_crimes <- df |> 
+  group_by(crime) |> 
+  summarize(total_hate = sum(occurrences)) |> 
+  arrange(desc(total_hate)) |> 
+  head(n=5) |> 
+  pull(crime)
+
+web_df <- df |>
+  filter(crime %in% most_common_crimes)
+
+crime_matrix <- web_df |> 
+  group_by(unitid, inst_name, year, crime) |> 
+  summarize(occurrences = sum(occurrences)) |>
+  pivot_wider(id_cols=c('unitid', 'inst_name', 'year'), names_from='crime', values_from='occurrences') |>
+  rename(Year = year)
 
 crime_matrix |>
-  select(!inst_name) |>
-  rename(Year = year) |>
-  write.csv('data/web/hate.csv', row.names=FALSE)
+  write.csv('data/web/hate-by-crime.csv', row.names=FALSE)
+
+bias_matrix <- web_df |> 
+  group_by(unitid, inst_name, year, bias) |> 
+  summarize(occurrences = sum(occurrences)) |>
+  pivot_wider(id_cols=c('unitid', 'inst_name', 'year'), names_from='bias', values_from='occurrences') |>
+  rename(Year = year)
+
+bias_matrix |>
+  write.csv('data/web/hate-by-bias.csv', row.names=FALSE)

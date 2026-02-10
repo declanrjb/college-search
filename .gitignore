@@ -5,3 +5,4 @@ data/raw/*
 __pycache__
 /.parcel-cache
 .parcel-cache/data.mdb
+data/tidy/hate-incidents.csv
