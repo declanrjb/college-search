@@ -157,16 +157,17 @@ df <- data_files |>
   do.call(rbind, .) |>
   unique()
 
+temp <- df
+
+# breakpoint
+df <- temp
+
 # split out bias motivation
 df <- df |> 
   mutate(
-    bias = str_split_i(crime, '_', 2), 
+    bias = str_split_i(crime, '_', -1), 
     crime = str_split_i(crime, '_', 1)
   )
-
-temp <- df
-
-df <- temp
 
 # update crime names
 df <- df |>

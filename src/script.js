@@ -472,7 +472,7 @@ function generateCompletions() {
 $(function() {
 
     $('.college-search-input').attr('unitid', 204501)
-    // loadSection($('.college-search-input').attr('unitid'), 'admissions')
+    loadSection($('.college-search-input').attr('unitid'), 'crime')
     loadBlurb($('.college-search-input').attr('unitid'))
 
     /* set open and close states initially */
