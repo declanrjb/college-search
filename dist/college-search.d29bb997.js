@@ -1161,6 +1161,22 @@ $(function() {
     $('.college-search-input').on('click', function(e) {
         $(e.currentTarget).val('');
     });
+    $('.download-button').on('click', function(e) {
+        var table_html = $(e.currentTarget.parentElement).find('table').html();
+        var request = request_stem + '/download?table=' + table_html;
+        console.log(request);
+        //window.location.href = 'https://google.com';
+        console.log('hello world');
+    // var blob = new Blob([csv_data], {
+    //     type: 'text/plain'
+    // });
+    // var link = document.createElement('a')
+    // link.href = URL.createObjectURL(blob)
+    // link.download = fileName
+    // document.body.appendChild(link)
+    // link.click()
+    // document.body.removeChild(link)
+    });
 });
 
 },{"chart.js/auto":"a3bOj","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"a3bOj":[function(require,module,exports,__globalThis) {
