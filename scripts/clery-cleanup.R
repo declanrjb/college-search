@@ -31,22 +31,20 @@ read_clery_file <- function(file) {
     ) |>
   select(unitid, year, inst_name, crime, occurrences)
   
-  # drop unitids that have multiple branches
+  # select only main campus
   df <- df |> 
-    mutate(unitid_prime = substr(unitid, 0, 6))
+    mutate(
+      unitid_prime = substr(unitid, 0, 6),
+      branch_campus = substr(unitid, 7, 9)
+    )
   
-  unique_unitids <- df |>
-    group_by(unitid_prime) |> 
-    summarize(unitid_variants = length(unique(unitid))) |> 
-    filter(unitid_variants == 1) |>
-    pull(unitid_prime)
-
   df <- df |>
-    filter(unitid_prime %in% unique_unitids)
+    filter(branch_campus == '001')
   
   df <- df |>
     mutate(unitid = substr(unitid, 0, 6)) |>
-    select(!unitid_prime)
+    select(!unitid_prime) |>
+    select(!branch_campus)
 
   return(df)
 }

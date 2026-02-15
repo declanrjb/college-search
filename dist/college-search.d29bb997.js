@@ -717,8 +717,8 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-// var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com';
+var request_stem = 'http://127.0.0.1:5000';
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line',
@@ -1160,10 +1160,6 @@ $(function() {
     });
     $('.college-search-input').on('click', function(e) {
         $(e.currentTarget).val('');
-    });
-    $('.info-box').on('click', function() {
-        if ($('.info-box-content').is(':visible')) $('.info-box-content').css('display', 'none');
-        else $('.info-box-content').css('display', 'block');
     });
 });
 

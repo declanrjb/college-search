@@ -126,14 +126,15 @@ th {
 }
 
 .info-box {
-    box-shadow: 0 1px 5px #666;
     background-color: white;
     padding: 20px;
     position: fixed;
-    left: 20px;
+    left: 30px;
     bottom: 0px;
-    width: 22%;
+    width: 20%;
     line-height: 1.5em;
+    border: 2px solid black;
+    border-bottom: none;
 }
 
 .info-box h2 {
@@ -204,4 +205,14 @@ table {
     padding-left: 20px;
     padding-top: 0px;
     padding-bottom: 0px;
+}
+
+a[href] {
+    text-decoration: none;
+    font-weight: bold;
+    color: #6184d8;
+}
+
+a[href]:hover {
+    color: #1f487e;
 }

@@ -26,6 +26,8 @@ from io import StringIO
 
 from serpapi import GoogleSearch
 
+import flask_csv
+
 directory = pd.read_csv('data/web/HD2024.csv')
 
 def search_directory(query):
@@ -346,7 +348,7 @@ def search():
     autocomps = search_directory_ui(query)
 
     result = {
-        'completions': autocomps
+        'completions': autocomps[0:10]
     }
 
     response = jsonify(result)
@@ -475,6 +477,19 @@ def hate():
     response = retrieve_hate(unitid)
 
     response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+@app.route('/download')
+def download():
+    table_html = request.args['table']
+    file_name = f"{request.args['file']}.csv" if 'file' in request.args else 'data.csv'
+
+    df = pd.read_html(table_html)[0]
+
+    response = flask_csv.send_csv(df.to_dict(orient='records'), f'data.csv', df.columns)
+
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
