@@ -90,7 +90,7 @@ th {
 }
 
 .data-holder table {
-    width: 100%;
+    width: calc(100% - 40px);
     text-align: right;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
@@ -214,5 +214,25 @@ a[href] {
 }
 
 a[href]:hover {
+    color: #1f487e;
+}
+
+.download-row {
+    height: 1.1em;
+    width: 100%;
+}
+
+.download-button {
+    font-weight: bold;
+    color: grey;
+    position: relative;
+    width: fit-content;
+    right: 0px;
+    font-size: 1.1em;
+    float: right;
+    margin-right: 20px;
+}
+
+.download-button:hover {
     color: #1f487e;
 }

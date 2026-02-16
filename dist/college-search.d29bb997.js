@@ -1135,12 +1135,14 @@ $(function() {
         if (e.currentTarget.parentElement.getAttribute('open') == 'false') {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block');
             $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'block');
+            $(e.currentTarget.parentElement).children('.download-row').css('display', 'block');
             e.currentTarget.parentElement.setAttribute('open', 'true');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down');
             loadSection($('.college-search-input').attr('unitid'), e.currentTarget.parentElement.getAttribute('id'));
         } else {
             $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none');
             $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'none');
+            $(e.currentTarget.parentElement).children('.download-row').css('display', 'none');
             e.currentTarget.parentElement.setAttribute('open', 'false');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-right');
             // clear current charts
@@ -1162,20 +1164,35 @@ $(function() {
         $(e.currentTarget).val('');
     });
     $('.download-button').on('click', function(e) {
-        var table_html = $(e.currentTarget.parentElement).find('table').html();
-        var request = request_stem + '/download?table=' + table_html;
-        console.log(request);
-        //window.location.href = 'https://google.com';
-        console.log('hello world');
-    // var blob = new Blob([csv_data], {
-    //     type: 'text/plain'
-    // });
-    // var link = document.createElement('a')
-    // link.href = URL.createObjectURL(blob)
-    // link.download = fileName
-    // document.body.appendChild(link)
-    // link.click()
-    // document.body.removeChild(link)
+        console.log('button clicked');
+        var table_html = $(e.currentTarget.parentElement.parentElement).find('table')[0].outerHTML;
+        console.log(table_html);
+        $.ajax({
+            url: request_stem + '/download',
+            type: "post",
+            async: false,
+            data: {
+                'table': table_html
+            },
+            success: function(data) {
+                data = data['data'];
+                var blob = new Blob([
+                    data
+                ], {
+                    type: 'text/plain'
+                });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'data.csv';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.responseText);
+                ShowMessage("??? ?? ?????? ??????? ????", "fail");
+            }
+        });
     });
 });
 

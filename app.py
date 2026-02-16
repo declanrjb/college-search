@@ -481,14 +481,30 @@ def hate():
 
     return response
 
-@app.route('/download')
+@app.route('/download', methods=['GET', 'POST'])
 def download():
-    table_html = request.args['table']
-    file_name = f"{request.args['file']}.csv" if 'file' in request.args else 'data.csv'
 
-    df = pd.read_html(table_html)[0]
+    table_html = request.form.getlist('table')[0]
 
-    response = flask_csv.send_csv(df.to_dict(orient='records'), f'data.csv', df.columns)
+#     sample_data = '''
+#     "unitid","inst_name","year","crime","occurrences"
+# "100654","Alabama A & M University","2019","Murder",0
+# "100654","Alabama A & M University","2019","Negligent Manslaughter",0
+# "100654","Alabama A & M University","2019","Rape",4
+# "100654","Alabama A & M University","2019","Fondling",2
+# "100654","Alabama A & M University","2019","Incest",0
+# "100654","Alabama A & M University","2019","Statuatory Rape",0
+# "100654","Alabama A & M University","2019","Robbery",0
+# "100654","Alabama A & M University","2019","Aggravated Assault",0
+# "100654","Alabama A & M University","2019","Burglary",19
+# "100654","Alabama A & M University","2019","Motor Vehicle Theft",0
+#     '''
+    df = pd.read_html(str(table_html))[0]
+
+
+    response = jsonify({
+        'data': df.to_csv()
+    })
 
     response.headers.add('Access-Control-Allow-Origin', '*')
 
