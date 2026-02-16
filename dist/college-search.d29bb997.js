@@ -1112,6 +1112,7 @@ function generateCompletions() {
             var unitid = e.currentTarget.getAttribute('unitid');
             $('.college-search-input').val(e.currentTarget.textContent.trim());
             $('.college-search-input').attr('unitid', unitid);
+            $('.college-search-input').attr('college', e.currentTarget.textContent.trim());
             $('.completions-holder').empty();
             //loadNews(unitid)
             loadBlurb(unitid);
@@ -1122,14 +1123,17 @@ function generateCompletions() {
     });
 }
 $(function() {
-    $('.college-search-input').attr('unitid', 204501);
+    /* set starting values */ $('.college-search-input').attr('unitid', 204501);
+    $('.college-search-input').attr('college', 'Oberlin College (OH)');
     loadSection($('.college-search-input').attr('unitid'), 'crime');
     loadBlurb($('.college-search-input').attr('unitid'));
     /* set open and close states initially */ $('.subsection[open="false"] .data-holder').css('display', 'none');
     $('.subsection[open="false"] .chart-wrapper').css('display', 'none');
+    $('.subsection[open="false"] .download-row').css('display', 'none');
     $('.subsection[open="false"] #subsec-arrow').attr('class', 'fa-solid fa-caret-right');
     $('.subsection[open="true"] .data-holder').css('display', 'block');
     $('.subsection[open="true"] .chart-wrapper').css('display', 'block');
+    $('.subsection[open="true"] .download-row').css('display', 'block');
     $('.subsection[open="true"] #subsec-arrow').attr('class', 'fa-solid fa-caret-down');
     /* set up open and close click function */ $('.subsection-header').on('click', function(e) {
         if (e.currentTarget.parentElement.getAttribute('open') == 'false') {
@@ -1175,6 +1179,9 @@ $(function() {
                 'table': table_html
             },
             success: function(data) {
+                var college_name = $('.college-search-input').attr('college').replace('(', '').replace(')', '').replaceAll(' ', '-');
+                var data_type = $(e.currentTarget.parentElement.parentElement).attr('id');
+                var file_name = college_name + '_' + data_type + '.csv';
                 data = data['data'];
                 var blob = new Blob([
                     data
@@ -1183,7 +1190,7 @@ $(function() {
                 });
                 var link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'data.csv';
+                link.download = file_name;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
