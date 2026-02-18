@@ -717,8 +717,8 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _auto = require("chart.js/auto");
 var _autoDefault = parcelHelpers.interopDefault(_auto);
-// var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com';
+var request_stem = 'http://127.0.0.1:5000';
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line',
@@ -854,6 +854,7 @@ function loadHate(unitid) {
     $(dataHolderId).empty();
     var query = request_stem + '/hate' + '?unitid=' + unitid;
     $.get(query, function(data) {
+        console.log(data);
         $(dataHolderId).append('<div class="enroll-table"></div>');
         $(dataHolderId).append('<div class="demo-table"></div>');
         $(dataHolderId).html(data['data']);
@@ -862,10 +863,12 @@ function loadHate(unitid) {
         var colors = [
             '#6184d8',
             '#ff6663',
-            'fce694',
-            '0beabd',
-            'e3b505',
-            '2f4858'
+            '#fce694',
+            '#0beabd',
+            '#e3b505',
+            '#1f487e',
+            '#000000',
+            '#8d0801'
         ];
         new (0, _autoDefault.default)($("#hate .chart-left"), {
             type: 'bar',
@@ -920,6 +923,7 @@ function loadCrime(unitid) {
     $(dataHolderId).empty();
     var query = request_stem + '/crime' + '?unitid=' + unitid;
     $.get(query, function(data) {
+        console.log(data);
         $("#crime .data-holder").html(data['data']);
         var chart_data = data['charts'][0];
         var labels = chart_data['headers'];

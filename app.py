@@ -124,6 +124,18 @@ def posneg_colors(val):
         return '#ff6663'
 
 def make_chart_data(df, x_axis, fields):
+
+    new_fields = []
+    for field in fields:
+        total_incidents = sum(df[field])
+        print(f'{field}: {total_incidents}')
+        if total_incidents > 0:
+            new_fields.append(field)
+    
+    fields = new_fields
+
+    print(f'Fields after removal: {fields}')
+
     chart_field_map = {fields[i]: f'Field{i}' for i in range(0, len(fields))}
 
     chart_df = df.copy()
@@ -226,6 +238,7 @@ def retrieve_enroll_totals(unitid):
     return result
 
 def retrieve_hate(unitid):
+    print('retrieving hate')
     data_bias = pd.read_csv('data/web/hate-by-bias.csv')
     data_crime = pd.read_csv('data/web/hate-by-crime.csv')
 

@@ -1,7 +1,7 @@
 import Chart from 'chart.js/auto'
 
-// var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com'
+var request_stem = 'http://127.0.0.1:5000'
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line',
@@ -200,6 +200,8 @@ function loadHate(unitid) {
     $.get(query, 
         function(data) {
 
+            console.log(data)
+
             $(dataHolderId).append('<div class="enroll-table"></div>')
             $(dataHolderId).append('<div class="demo-table"></div>')
 
@@ -207,7 +209,7 @@ function loadHate(unitid) {
 
             var chart_data = data['charts'][0]
             var labels = chart_data['headers']
-            var colors = ['#6184d8', '#ff6663', 'fce694', '0beabd', 'e3b505', '2f4858']
+            var colors = ['#6184d8', '#ff6663', '#fce694', '#0beabd', '#e3b505', '#1f487e', '#000000', '#8d0801']
 
             new Chart(
                 $('#hate' + ' .chart-left'),
@@ -285,6 +287,8 @@ function loadCrime(unitid) {
 
     $.get(query, 
         function(data) {
+
+            console.log(data)
 
             $('#crime' + ' .data-holder').html(data['data'])
 
