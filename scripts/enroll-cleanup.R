@@ -2,63 +2,100 @@ library(plyr)
 library(tidyverse)
 source('scripts/functions.R')
 
-read_enroll_file <- function(file) {
-  temp <- read_csv(file) |>
-    mutate(YEAR = str_extract(file, '[0-9]+'))
+# read_enroll_file <- function(file) {
+#   temp <- read_csv(file) |>
+#     mutate(YEAR = str_extract(file, '[0-9]+'))
   
-  colnames(temp) <- colnames(temp) |>
-    str_to_upper()
+#   colnames(temp) <- colnames(temp) |>
+#     str_to_upper()
 
-  temp <- temp |>
-      select(UNITID, YEAR, EFFYLEV, EFYTOTLM, EFYTOTLW, ends_with('T')) |>
-      select(!starts_with('X'))
+#   temp <- temp |>
+#       select(UNITID, YEAR, EFFYLEV, EFYTOTLM, EFYTOTLW, ends_with('T')) |>
+#       select(!starts_with('X'))
 
-  if (dim(temp)[2] <= 17) {
-    return(temp)
-  }
+#   if (dim(temp)[2] <= 17) {
+#     return(temp)
+#   }
+# }
+
+# enroll_files <- list.files('data/raw/ipeds/ipeds-clean/enrollment', full.names=TRUE)
+
+# df <- enroll_files |>
+#   lapply(read_enroll_file) %>%
+#   do.call(rbind.fill, .) |>
+#   mutate(YEAR = parse_number(YEAR))
+
+# # select subgroup all students total
+# grad_tables <- df |>
+#   select(UNITID, YEAR, EFFYLEV, EFYTOTLT) |>
+#   mutate(EFFYLEV = case_when(
+#     EFFYLEV == 1 ~ 'total',
+#     EFFYLEV == 2 ~ 'undergraduate',
+#     EFFYLEV == 4 ~ 'graduate'
+#   )) |>
+#   filter(!is.na(EFFYLEV)) |>
+#   pivot_wider(id_cols=c('UNITID', 'YEAR'), names_from='EFFYLEV', values_from='EFYTOTLT') |>
+#   mutate(
+#     graduate = replace_na(graduate, 0),
+#     undergraduate = replace_na(undergraduate, 0)
+#   )
+
+# # NEED TO CHECK THESE YEARS LINE UP
+# adm_data <- read_csv('data/admissions.csv')
+
+# adm_data <- adm_data |>
+#   select(Year, UNITID, Enrolled) |>
+#   rename(first_year = Enrolled)
+
+# grad_tables <- grad_tables |>
+#   left_join(adm_data, by=c('YEAR' = 'Year', 'UNITID'))
+
+# # weird that there are 45 colleges with more first years than total students, check that
+# grad_tables |>
+#   mutate(
+#     grad_undergrad_add_up = total == undergraduate + graduate,
+#     first_years_under_total = first_year <= total
+#   ) |>
+#   count(grad_undergrad_add_up, first_years_under_total)
+
+# grad_tables |>
+#   write.csv('data/enrollment.csv', row.names=FALSE)
+
+# using fall enrollment
+read_enroll_file <- function(file) {
+  df <- read_csv(file)
+
+  df <- df |> 
+    select(UNITID, EFALEVEL, EFTOTLT) |>
+    mutate(
+      Year = file |> 
+        str_split_i('/', -1) |> 
+        parse_number()
+    )
+
+  return(df)
 }
 
-enroll_files <- list.files('data/ipeds-clean/enrollment', full.names=TRUE)
+enroll_files <- list.files('data/raw/ipeds/ipeds-clean/fall-enrollment', full.names=TRUE)
 
 df <- enroll_files |>
   lapply(read_enroll_file) %>%
-  do.call(rbind.fill, .) |>
-  mutate(YEAR = parse_number(YEAR))
+  do.call(rbind, .)
 
-# select subgroup all students total
-grad_tables <- df |>
-  select(UNITID, YEAR, EFFYLEV, EFYTOTLT) |>
-  mutate(EFFYLEV = case_when(
-    EFFYLEV == 1 ~ 'total',
-    EFFYLEV == 2 ~ 'undergraduate',
-    EFFYLEV == 4 ~ 'graduate'
-  )) |>
-  filter(!is.na(EFFYLEV)) |>
-  pivot_wider(id_cols=c('UNITID', 'YEAR'), names_from='EFFYLEV', values_from='EFYTOTLT') |>
-  mutate(
-    graduate = replace_na(graduate, 0),
-    undergraduate = replace_na(undergraduate, 0)
-  )
+df <- df |>
+  filter(EFALEVEL %in% c(1, 2, 12, 24)) |>
+  mutate(Level = case_when(
+    EFALEVEL == 1 ~ 'Total',
+    EFALEVEL == 2 ~ 'Undergraduate',
+    EFALEVEL == 12 ~ 'Graduate',
+    EFALEVEL == 24 ~ 'First-Time Students'
+  ))
 
-# NEED TO CHECK THESE YEARS LINE UP
-adm_data <- read_csv('data/admissions.csv')
+df <- df |> 
+  select(UNITID, Year, Level, EFTOTLT) |> 
+  pivot_wider(id_cols=c('Year', 'UNITID'), names_from=Level, values_from=EFTOTLT)
 
-adm_data <- adm_data |>
-  select(Year, UNITID, Enrolled) |>
-  rename(first_year = Enrolled)
-
-grad_tables <- grad_tables |>
-  left_join(adm_data, by=c('YEAR' = 'Year', 'UNITID'))
-
-# weird that there are 45 colleges with more first years than total students, check that
-grad_tables |>
-  mutate(
-    grad_undergrad_add_up = total == undergraduate + graduate,
-    first_years_under_total = first_year <= total
-  ) |>
-  count(grad_undergrad_add_up, first_years_under_total)
-
-grad_tables |>
+df |>
   write.csv('data/enrollment.csv', row.names=FALSE)
 
 
