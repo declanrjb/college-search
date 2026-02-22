@@ -95,8 +95,9 @@ df <- df |>
   select(UNITID, Year, Level, EFTOTLT) |> 
   pivot_wider(id_cols=c('Year', 'UNITID'), names_from=Level, values_from=EFTOTLT)
 
+# want to add "fall" tag later
 df |>
-  write.csv('data/enrollment.csv', row.names=FALSE)
+  write.csv('data/web/enrollment.csv', row.names=FALSE)
 
 
 

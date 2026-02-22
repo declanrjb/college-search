@@ -230,8 +230,8 @@ def retrieve_enroll_totals(unitid):
 
     result = {}
     result['charts'] = [
-        make_chart_data(df, 'YEAR', ['undergraduate', 'graduate']),
-        make_chart_data(df, 'YEAR', ['first_year'])
+        make_chart_data(df, 'Year', ['Undergraduate', 'Graduate']),
+        make_chart_data(df, 'Year', ['First-Time Students'])
     ]
     result['data'] = df.to_html(index=False, escape=False)
 
