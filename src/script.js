@@ -3,8 +3,8 @@ import {TreemapController, TreemapElement} from 'chartjs-chart-treemap';
 
 Chart.register(TreemapController, TreemapElement);
 
-var request_stem = 'http://127.0.0.1:5000'
-// var request_stem = 'https://college-search.onrender.com'
+// var request_stem = 'http://127.0.0.1:5000'
+var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line',
