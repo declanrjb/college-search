@@ -1,5 +1,7 @@
 UniData is a higher education data search engine developed by Declan Bradley. It is intended for use by education reporters or data journalists seeking high level summary data on accredited institutions of higher education in the United States. The [engine interface](https://declanrjb.github.io/college-search/) standardizes the following datasets, which are also available in tidy data form.
 
+# Clery Data
+
 ## Campus Crime
 
 | Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/datafile/list) |
@@ -34,6 +36,8 @@ Where an institution has multiple branch campuses, the engine displays statistic
 
 On-campus hate incidents for the selected years. Engine provides two breakdowns of the same incident counts: the first by the type of crime committed (intimidation, vandalism, assault, etc), the second by the incident motivation (race/ethnicity, national origin, sexual orientation, etc.) Both datasets are available in full as separate downloads.
 
+# IPEDs Data
+
 ## Admissions Statistics
 
 | Data Source | [Integrated Postsecondary Education Dataset (IPEDs)](https://nces.ed.gov/ipeds/use-the-data) |
@@ -52,11 +56,13 @@ Admissions summary statistics for the selected years, including raw applicant, a
 | Engine Provides | Summary data |
 | Complete Data Available | Tidy format |
 
-Fall enrollment by number of undergraduate, graduate, and first-time students, selected years. First-time student counts are drawn from IPEDS `EFALEVEL == 24`, "Full-time students, Undergraduate, Degree/certificate-seeking, First-time."
+Fall enrollment by number of undergraduate, graduate, and first-time students, selected years. First-time student counts are drawn from the IPEDS subset `EFALEVEL == 24`, which expands to "Full-time students, Undergraduate, Degree/certificate-seeking, First-time."
 
 ## Student Demographics
 
 TK
+
+# Financial Data
 
 ## Financial Position
 
