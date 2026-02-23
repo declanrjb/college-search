@@ -60,7 +60,13 @@ Fall enrollment by number of undergraduate, graduate, and first-time students, s
 
 ## Student Demographics
 
-TK
+| Data Source | [Integrated Postsecondary Education Dataset (IPEDs)](https://nces.ed.gov/ipeds/use-the-data) |
+| ----- | --------- |
+| Years | 2024 |
+| Engine Provides | Summary data |
+| Complete Data Available | Tidy format |
+
+Fall enrollment broken down by race/ethnicity and gender, most recent year. Complete data for all years available as a tidy data file. Engine data provides these counts separately and in aggregate, original IPEDs data provides them in combination (African American Men, African American Women, etc.)
 
 # Financial Data
 

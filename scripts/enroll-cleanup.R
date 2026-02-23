@@ -76,6 +76,27 @@ read_enroll_file <- function(file) {
   return(df)
 }
 
+read_enroll_file_w_demos <- function(file) {
+  df <- read_csv(file)
+
+  df <- df |> 
+    mutate(
+      Year = file |> 
+        str_split_i('/', -1) |> 
+        parse_number()
+    )
+  
+  colnames(df) <- colnames(df) |>
+      str_to_upper()
+
+  df <- df |>
+      select(UNITID, YEAR, EFALEVEL, EFTOTLM, EFTOTLW, ends_with('T')) |>
+      select(!starts_with('X'))
+
+  return(df)
+}
+
+
 enroll_files <- list.files('data/raw/ipeds/ipeds-clean/fall-enrollment', full.names=TRUE)
 
 df <- enroll_files |>
@@ -101,13 +122,19 @@ df |>
 
 
 
+# now doing demographics
+enroll_files <- list.files('data/raw/ipeds/ipeds-clean/fall-enrollment', full.names=TRUE)
 
-enr_codebook <- read_csv('data/vars/effy_vars.csv')
+df <- enroll_files |>
+  lapply(read_enroll_file_w_demos) %>%
+  do.call(rbind, .)
 
+
+enr_codebook <- read_csv('data/raw/ipeds/vars/efa-vars.csv')
 
 demographics <- df |>
-  filter(EFFYLEV == 1) |>
-  select(!EFFYLEV) |>
+  filter(EFALEVEL == 1) |>
+  select(!EFALEVEL) |>
   pivot_longer(cols=starts_with('E'), names_to='demo') |>
   left_join(
     enr_codebook |>
@@ -118,7 +145,7 @@ demographics <- df |>
   rename(demo = varTitle)
 
 demographics <- demographics |>
-  rename(students = value)
+  rename(Students = value)
 
 message(max(demographics$YEAR))
 
@@ -131,7 +158,6 @@ demographics <- demographics |>
   arrange(UNITID) |>
   filter(demo != 'Grand total') |>
   rename(
-    Students = students,
     Demographic = demo
   )
 
@@ -141,11 +167,12 @@ gender <- demographics |>
     Demographic = Demographic |>
       str_replace('Grand total', '') |>
       str_replace('Total of gender unknown and another gender', 'unknown/other') |>
-      str_squish()
+      str_squish() |>
+      str_to_title()
   )
   
 gender |>
-  write.csv('data/gender.csv', row.names=FALSE)
+  write.csv('data/web/gender.csv', row.names=FALSE)
 
 # ethnicity
 ethnicity <- demographics |>
@@ -168,4 +195,4 @@ ethnicity <- demographics |>
   ))
 
 ethnicity |>
-  write.csv('data/ethnicity.csv', row.names=FALSE)
+  write.csv('data/web/ethnicity.csv', row.names=FALSE)

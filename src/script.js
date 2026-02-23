@@ -1,7 +1,10 @@
 import Chart from 'chart.js/auto'
+import {TreemapController, TreemapElement} from 'chartjs-chart-treemap';
 
-// var request_stem = 'http://127.0.0.1:5000'
-var request_stem = 'https://college-search.onrender.com'
+Chart.register(TreemapController, TreemapElement);
+
+var request_stem = 'http://127.0.0.1:5000'
+// var request_stem = 'https://college-search.onrender.com'
 var chart_types = {
     'propublica': 'bar',
     'admissions': 'line',
@@ -378,49 +381,134 @@ function loadDemographics(unitid) {
             var chart_data = data['gender']['charts']
 
             var labels = chart_data['headers']
+            console.log(colors)
+
+            //['#6184d8', '#ff6663', '#fce694', '#0beabd', '#e3b505', '#1f487e', '#000000', '#8d0801']
+            var colorMap = {
+                'Men': '#6184d8',
+                'Women': '#ff6663',
+                'White': '#6184d8',
+                'Two or more races': '#ff6663',
+                'Race/ethnicity unknown': '#fce694',
+                'Black or African American': '#0beabd',
+                'Asian': '#e3b505',
+                'American Indian or Alaska Native': '#1f487e',
+                'Native Hawaiian or Other Pacific Islander': '#8d0801'
+            }
 
             new Chart(
                 $('#demographics' + ' .chart-right'),
                 {
-                    type: 'bar',
+                    type: 'treemap',
                     data: {
                         labels: chart_data['data'].map(row => row.x_axis),
                         datasets: [
                             {
                                 label: labels[0],
-                                data: chart_data['data'].map(row => row.Field0),
-                                backgroundColor: chart_data['data'].map(row => '#6184d8'),
-                                borderColor: chart_data['data'].map(row => '#6184d8')
+                                tree: chart_data['data'],
+                                key: 'Field0',
+                                backgroundColor: (ctx) => {
+                                    // 'raw' contains the original data object for that square
+                                    const item = ctx.type === 'data' ? ctx.raw._data : null;
+                                    if (!item) return 'transparent';
+                                    
+                                    // Return color from map based on the group name
+                                    return colorMap[item.x_axis] || 'rgb(200, 200, 200)'; 
+                                },
+                                groups: ['x_axis'],
+                                labels: {
+                                    display: true,
+                                    color: 'white',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
                             }
                         ]
                     },
                     options: {
-                        indexAxis: 'x'
+                        indexAxis: 'x',
+                        plugins: {
+                            legend: {
+                              display: false
+                            },
+                            tooltip: {
+                                enabled: false // This kills the popup entirely
+                            }
+                          }
                     }
                 }
                 )
 
             var chart_data = data['ethnicity']['charts']
             var labels = chart_data['headers']
+
             new Chart(
                 $('#demographics' + ' .chart-left'),
-                    {
-                        type: 'bar',
-                        data: {
-                            labels: chart_data['data'].map(row => row.x_axis),
-                            datasets: [
-                                {
-                                    label: labels[0],
-                                    data: chart_data['data'].map(row => row.Field0),
-                                    backgroundColor: chart_data['data'].map(row => '#6184d8')
+                {
+                    type: 'treemap',
+                    data: {
+                        labels: chart_data['data'].map(row => row.x_axis),
+                        datasets: [
+                            {
+                                label: labels[0],
+                                tree: chart_data['data'],
+                                key: 'Field0',
+                                backgroundColor: (ctx) => {
+                                    // 'raw' contains the original data object for that square
+                                    const item = ctx.type === 'data' ? ctx.raw._data : null;
+                                    if (!item) return 'transparent';
+                                    
+                                    // Return color from map based on the group name
+                                    return colorMap[item.x_axis] || 'rgb(200, 200, 200)'; 
+                                },
+                                groups: ['x_axis'],
+                                labels: {
+                                    display: true,
+                                    color: 'white',
+                                    font: {
+                                        weight: 'bold'
+                                    }
                                 }
-                            ],
-                        },
-                        options: {
-                            indexAxis: 'y'
-                        }
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'x',
+                        plugins: {
+                            legend: {
+                              display: false
+                            },
+                            tooltip: {
+                                enabled: false // This kills the popup entirely
+                            }
+                          }
                     }
+                }
                 )
+            
+            
+            
+            
+            // new Chart(
+            //     $('#demographics' + ' .chart-left'),
+            //         {
+            //             type: 'bar',
+            //             data: {
+            //                 labels: chart_data['data'].map(row => row.x_axis),
+            //                 datasets: [
+            //                     {
+            //                         label: labels[0],
+            //                         data: chart_data['data'].map(row => row.Field0),
+            //                         backgroundColor: chart_data['data'].map(row => '#6184d8')
+            //                     }
+            //                 ],
+            //             },
+            //             options: {
+            //                 indexAxis: 'y'
+            //             }
+            //         }
+            //     )
 
             $(dataHolderId).append(
                 '<div id="ethnicity-table"></div><div id="gender-table"></div>'
