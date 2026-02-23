@@ -41,3 +41,39 @@ On-campus hate incidents for the selected years. Engine provides two breakdowns 
 | Years | 2014-2024 |
 | Engine Provides | Summary data |
 | Complete Data Available | Tidy format |
+
+Admissions summary statistics for the selected years, including raw applicant, admit, and enrolled student counts from IPEDs along with calculated admission and yield rates. Provided statistics are calculated for all student demographics, original IPEDs data provides more granular data grouped by applicant gender.
+
+## Enrollment
+
+| Data Source | [Integrated Postsecondary Education Dataset (IPEDs)](https://nces.ed.gov/ipeds/use-the-data) |
+| ----- | --------- |
+| Years | 2014-2024 |
+| Engine Provides | Summary data |
+| Complete Data Available | Tidy format |
+
+Fall enrollment by number of undergraduate, graduate, and first-time students, selected years. First-time student counts are drawn from IPEDS `EFALEVEL == 24`, "Full-time students, Undergraduate, Degree/certificate-seeking, First-time."
+
+## Student Demographics
+
+TK
+
+## Financial Position
+
+| Data Source | [ProPublica Nonprofit Explorer](https://projects.propublica.org/nonprofits/) |
+| ----- | --------- |
+| Years | 2011-2023 |
+| Engine Provides | Summary data, access to documents |
+| Complete Data Available | Via [ProPublica api](https://projects.propublica.org/nonprofits/api) |
+
+Institution revenue, expenses, financial assets, and liabilities, selected years. Original IRS 990 filings for the selected years can be accessed from the engine's summary tables.
+
+## Highest Paid Employees
+
+| Data Source | [ProPublica Nonprofit Explorer](https://projects.propublica.org/nonprofits/) |
+| ----- | --------- |
+| Years | 2023 |
+| Engine Provides | Summary data, access to documents |
+| Complete Data Available | Via [ProPublica api](https://projects.propublica.org/nonprofits/api) |
+
+Names, positions, and compensation packages for the institution's highest paid officers and employees, most recent year. May also include trustees of the institution who do not receive direct financial compensation.
