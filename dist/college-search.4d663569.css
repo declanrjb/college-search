@@ -228,4 +228,9 @@ a[href]:hover {
 .download-button:hover {
   color: #1f487e;
 }
+
+.credit-box {
+  margin-left: 20px;
+  display: none;
+}
 /*# sourceMappingURL=college-search.4d663569.css.map */

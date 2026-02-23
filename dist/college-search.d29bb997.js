@@ -724,6 +724,16 @@ var chart_types = {
     'admissions': 'line',
     'discipline': 'bar'
 };
+var colors = [
+    '#6184d8',
+    '#ff6663',
+    '#fce694',
+    '#0beabd',
+    '#e3b505',
+    '#1f487e',
+    '#000000',
+    '#8d0801'
+];
 function loadSection(unitid, section) {
     console.log(section);
     $('#' + section).children('.chart-wrapper').children('.chart').each(function() {
@@ -860,16 +870,6 @@ function loadHate(unitid) {
         $(dataHolderId).html(data['data']);
         var chart_data = data['charts'][0];
         var labels = chart_data['headers'];
-        var colors = [
-            '#6184d8',
-            '#ff6663',
-            '#fce694',
-            '#0beabd',
-            '#e3b505',
-            '#1f487e',
-            '#000000',
-            '#8d0801'
-        ];
         new (0, _autoDefault.default)($("#hate .chart-left"), {
             type: 'bar',
             data: {
@@ -931,44 +931,12 @@ function loadCrime(unitid) {
             type: 'bar',
             data: {
                 labels: chart_data['data'].map((row)=>row.x_axis),
-                datasets: [
-                    {
-                        label: labels[0],
-                        data: chart_data['data'].map((row)=>row.Field0),
-                        backgroundColor: chart_data['data'].map((row)=>'#6184d8'),
-                        borderColor: chart_data['data'].map((row)=>'#6184d8')
-                    },
-                    {
-                        label: labels[1],
-                        data: chart_data['data'].map((row)=>row.Field1),
-                        backgroundColor: chart_data['data'].map((row)=>'#ff6663'),
-                        borderColor: chart_data['data'].map((row)=>'#ff6663')
-                    },
-                    {
-                        label: labels[2],
-                        data: chart_data['data'].map((row)=>row.Field2),
-                        backgroundColor: chart_data['data'].map((row)=>'#fce694'),
-                        borderColor: chart_data['data'].map((row)=>'#fce694')
-                    },
-                    {
-                        label: labels[3],
-                        data: chart_data['data'].map((row)=>row.Field3),
-                        backgroundColor: chart_data['data'].map((row)=>'#0beabd'),
-                        borderColor: chart_data['data'].map((row)=>'#0beabd')
-                    },
-                    {
-                        label: labels[4],
-                        data: chart_data['data'].map((row)=>row.Field4),
-                        backgroundColor: chart_data['data'].map((row)=>'#e3b505'),
-                        borderColor: chart_data['data'].map((row)=>'#e3b505')
-                    },
-                    {
-                        label: labels[5],
-                        data: chart_data['data'].map((row)=>row.Field5),
-                        backgroundColor: chart_data['data'].map((row)=>'#2f4858'),
-                        borderColor: chart_data['data'].map((row)=>'#2f4858')
-                    }
-                ]
+                datasets: Array.from(Array(labels.length).keys()).map((index)=>({
+                        label: labels[index],
+                        data: chart_data['data'].map((row)=>row['Field' + index]),
+                        backgroundColor: chart_data['data'].map((row)=>colors[index]),
+                        borderColor: chart_data['data'].map((row)=>colors[index])
+                    }))
             },
             options: {
                 scales: {
@@ -987,32 +955,12 @@ function loadCrime(unitid) {
             type: 'bar',
             data: {
                 labels: chart_data['data'].map((row)=>row.x_axis),
-                datasets: [
-                    {
-                        label: labels[0],
-                        data: chart_data['data'].map((row)=>row.Field0),
-                        backgroundColor: chart_data['data'].map((row)=>'#6184d8'),
-                        borderColor: chart_data['data'].map((row)=>'#6184d8')
-                    },
-                    {
-                        label: labels[1],
-                        data: chart_data['data'].map((row)=>row.Field1),
-                        backgroundColor: chart_data['data'].map((row)=>'#ff6663'),
-                        borderColor: chart_data['data'].map((row)=>'#ff6663')
-                    },
-                    {
-                        label: labels[2],
-                        data: chart_data['data'].map((row)=>row.Field2),
-                        backgroundColor: chart_data['data'].map((row)=>'#fce694'),
-                        borderColor: chart_data['data'].map((row)=>'#fce694')
-                    },
-                    {
-                        label: labels[3],
-                        data: chart_data['data'].map((row)=>row.Field3),
-                        backgroundColor: chart_data['data'].map((row)=>'#0beabd'),
-                        borderColor: chart_data['data'].map((row)=>'#0beabd')
-                    }
-                ]
+                datasets: Array.from(Array(labels.length).keys()).map((index)=>({
+                        label: labels[index],
+                        data: chart_data['data'].map((row)=>row['Field' + index]),
+                        backgroundColor: chart_data['data'].map((row)=>colors[index]),
+                        borderColor: chart_data['data'].map((row)=>colors[index])
+                    }))
             },
             options: {
                 indexAxis: 'x',
@@ -1141,16 +1089,16 @@ $(function() {
     $('.subsection[open="true"] #subsec-arrow').attr('class', 'fa-solid fa-caret-down');
     /* set up open and close click function */ $('.subsection-header').on('click', function(e) {
         if (e.currentTarget.parentElement.getAttribute('open') == 'false') {
-            $(e.currentTarget.parentElement).children('.data-holder').css('display', 'block');
-            $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'block');
-            $(e.currentTarget.parentElement).children('.download-row').css('display', 'block');
+            $(e.currentTarget.parentElement).children(':not(.subsection-header)').css('display', 'block');
+            // $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'block')
+            // $(e.currentTarget.parentElement).children('.download-row').css('display', 'block')
             e.currentTarget.parentElement.setAttribute('open', 'true');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-down');
             loadSection($('.college-search-input').attr('unitid'), e.currentTarget.parentElement.getAttribute('id'));
         } else {
-            $(e.currentTarget.parentElement).children('.data-holder').css('display', 'none');
-            $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'none');
-            $(e.currentTarget.parentElement).children('.download-row').css('display', 'none');
+            $(e.currentTarget.parentElement).children(':not(.subsection-header)').css('display', 'none');
+            // $(e.currentTarget.parentElement).children('.chart-wrapper').css('display', 'none')
+            // $(e.currentTarget.parentElement).children('.download-row').css('display', 'none')
             e.currentTarget.parentElement.setAttribute('open', 'false');
             $(e.currentTarget).children('.subsection-title').children('#subsec-arrow').attr('class', 'fa-solid fa-caret-right');
             // clear current charts

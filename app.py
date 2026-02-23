@@ -105,7 +105,7 @@ def frame_url(url):
     if url is None:
         return ''
     else:
-        return f'<a href="{url}">View Document</a>'
+        return f'<a href="{url}">View Document <i class="fa-solid fa-file-lines"></i></a>'
 
 def parse_num(num):
     if type(num) == int or type(num) == float:
@@ -192,6 +192,8 @@ def retrieve_top_officers(unitid):
 
     url = f'https://projects.propublica.org/nonprofits/organizations/{ein}'
 
+    print(url)
+
     soup = BeautifulSoup(requests.get(url).text)
 
     table = soup.select('.employees')
@@ -205,20 +207,22 @@ def retrieve_top_officers(unitid):
     df = df[['Name', 'Position', 'Compensation', 'Related', 'Other']]
 
     result = {}
-    result['charts'] = make_chart_data(df, 'Name', ['Compensation', 'Related'])
     result['data'] = df.to_html(index=False, escape=False)
 
     return result
 
 def retrieve_admissions_stats(unitid):
-    adm_data = pd.read_csv('data/web/admissions.csv')
-    adm_data = adm_data[adm_data['UNITID'].apply(lambda x: x == unitid)]
-    adm_data = adm_data.drop('UNITID', axis=1)
-    df = adm_data
-
+    df = pd.read_csv('data/web/admissions.csv')
+    df = df[df['UNITID'].apply(lambda x: x == unitid)]
+    df = df.drop('UNITID', axis=1)
+    
     result = {}
-    result['charts'] = make_chart_data(df, 'Year', ['Admission Rate', 'Yield'])
     result['data'] = df.to_html(index=False, escape=False)
+
+    df['Admission Rate'] = pd.to_numeric(df['Admission Rate'].apply(lambda x: x.replace('%', '')))
+    df['Yield'] = pd.to_numeric(df['Yield'].apply(lambda x: x.replace('%', '')))
+
+    result['charts'] = make_chart_data(df, 'Year', ['Admission Rate', 'Yield'])
 
     return result
 
