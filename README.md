@@ -4,7 +4,7 @@ UniData is a higher education data search engine developed by Declan Bradley. It
 
 ## Campus Crime
 
-| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/datafile/list) |
+| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/) |
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
@@ -16,7 +16,7 @@ Where an institution has multiple branch campuses, the engine displays statistic
 
 ## Campus Discipline
 
-| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/datafile/list) |
+| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/) |
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
@@ -28,7 +28,7 @@ Where an institution has multiple branch campuses, the engine displays statistic
 
 ## Hate Incidents
 
-| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/datafile/list) |
+| Data Source | [U.S. Department of Education Jeanne Clery Act Central Database](https://ope.ed.gov/campussafety/#/) |
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
