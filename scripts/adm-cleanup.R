@@ -1,7 +1,13 @@
 library(tidyverse)
 source('scripts/functions.R')
 
-adm_files <- list.files('data/ipeds-clean/admissions', full.names=TRUE)
+adm_files <- list.files('data/raw/ipeds/ipeds-clean/admissions', full.names=TRUE)
+
+directory <- read_csv('data/raw/ipeds/HD2024.csv')
+
+directory <- directory |>
+  select(UNITID, INSTNM) |>
+  rename(NAME = INSTNM)
 
 # basic admission stats
 
@@ -21,6 +27,16 @@ df <- df |>
   mutate(ADM_RATE = ADMSSN / APPLCN,
           YIELD = ENRLT / ADMSSN)
 
+df |>
+  rename(
+    APPLIED = APPLCN,
+    ADMITTED = ADMSSN,
+    ENROLLED = ENRLT
+  ) |>
+  left_join(directory) |>
+  select(YEAR, NAME, UNITID, APPLIED, ADMITTED, ENROLLED, ADM_RATE, YIELD) |>
+  write.csv('data/tidy/admissions.csv', row.names=FALSE)
+
 df <- df |>
   mutate(ADM_RATE = round(ADM_RATE * 100, digits=1), YIELD = round(YIELD * 100, digits=1)) |>
   mutate(ADM_RATE = paste(ADM_RATE, '%', sep=''), YIELD = paste(YIELD, '%', sep='')) |>
@@ -34,3 +50,5 @@ df <- df |>
   )
 
 write.csv(df, 'data/admissions.csv', row.names=FALSE)
+
+

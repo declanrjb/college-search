@@ -3,7 +3,6 @@ https://serpapi.com/google-news-api
 https://www.collegetransitions.com/dataverse/common-data-set-repository
 
 # to-do
-- fix ui bug in search autocomplete
 - make unlinked tidy datasets
 - expand years for clery data
 - mobile view
