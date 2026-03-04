@@ -365,7 +365,7 @@ def search():
     autocomps = search_directory_ui(query)
 
     result = {
-        'completions': autocomps[0:10]
+        'completions': autocomps[0:5]
     }
 
     response = jsonify(result)
