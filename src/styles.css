@@ -241,3 +241,32 @@ a[href]:hover {
     margin-left: 20px;
     display: none;
 }
+
+.mobile-box {
+    display: none;
+}
+
+.mobile-button {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: normal;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 920px) {
+    .interface-main {
+        display: none;
+    }
+
+    .mobile-box {
+        display: block;
+        padding-top: 10px;
+    }
+
+    .mobile-warning {
+        border: 2px solid black;
+        padding: 10px;
+    }
+}
