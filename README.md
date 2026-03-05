@@ -8,7 +8,7 @@ UniData is a higher education data search engine developed by Declan Bradley. It
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy format |
+| Complete Data Available | [Tidy format](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/campus-crime.csv) |
 
 Combined crime data detailing incidents of sexual violence, arson, burglary, murder, and other on-campus criminal acts. 
 
@@ -20,7 +20,7 @@ Where an institution has multiple branch campuses, the engine displays statistic
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy format |
+| Complete Data Available | [Tidy format](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/discipline.csv) |
 
 Combined data on campus disciplinary incidents less serious than those considered campus crime – typically underage use of alcohol and other drugs. 
 
@@ -44,7 +44,7 @@ On-campus hate incidents for the selected years. Engine provides two breakdowns 
 | ----- | --------- |
 | Years | 2014-2024 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy format |
+| Complete Data Available | [Tidy format](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/admissions.csv) |
 
 Admissions summary statistics for the selected years, including raw applicant, admit, and enrolled student counts from IPEDs along with calculated admission and yield rates. Provided statistics are calculated for all student demographics, original IPEDs data provides more granular data grouped by applicant gender.
 

@@ -2,6 +2,13 @@ library(plyr)
 library(tidyverse)
 source('scripts/functions.R')
 
+# make tidy data
+directory <- read_csv('data/raw/ipeds/HD2024.csv')
+
+directory <- directory |>
+  select(UNITID, INSTNM) |>
+  dplyr::rename(Institution = INSTNM)
+
 # read_enroll_file <- function(file) {
 #   temp <- read_csv(file) |>
 #     mutate(YEAR = str_extract(file, '[0-9]+'))
@@ -112,6 +119,14 @@ df <- df |>
     EFALEVEL == 24 ~ 'First-Time Students'
   ))
 
+df |>
+  left_join(directory) |>
+  select(Year, UNITID, Institution, Level, EFTOTLT) |>
+  dplyr::rename(
+    Students = EFTOTLT
+  ) |>
+  write.csv('data/tidy/enrollment.csv', row.names=FALSE)
+
 df <- df |> 
   select(UNITID, Year, Level, EFTOTLT) |> 
   pivot_wider(id_cols=c('Year', 'UNITID'), names_from=Level, values_from=EFTOTLT)
@@ -147,13 +162,6 @@ demographics <- df |>
 demographics <- demographics |>
   dplyr::rename(Students = value)
 
-# make tidy data
-directory <- read_csv('data/raw/ipeds/HD2024.csv')
-
-directory <- directory |>
-  select(UNITID, INSTNM) |>
-  dplyr::rename(Institution = INSTNM)
-
 demographics |>
   left_join(directory) |>
   select(Institution, YEAR, UNITID, demo, Students) |>
@@ -161,7 +169,7 @@ demographics |>
     Year = YEAR,
     Demographic = demo
   ) |>
-  write.csv('data/tidy/enrollment.csv', row.names=FALSE)
+  write.csv('data/tidy/demographics.csv', row.names=FALSE)
 
 # only focus on most recent year
 demographics <- demographics |>
