@@ -609,8 +609,8 @@ function generateCompletions() {
 $(function() {
 
     /* set starting values */
-    $('.college-search-input').attr('unitid', 204501)
-    $('.college-search-input').attr('college', 'Oberlin College (OH)')
+    $('.college-search-input').attr('unitid', 150163)
+    $('.college-search-input').attr('college', 'Butler University (IN)')
 
     loadSection($('.college-search-input').attr('unitid'), 'crime')
     loadBlurb($('.college-search-input').attr('unitid'))
