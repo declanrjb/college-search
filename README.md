@@ -1,4 +1,4 @@
-UniData is a higher education data search engine developed by Declan Bradley. It relies on data from the Common Dataset, the U.S. Department of Education, and ProPublica's nonprofit explorer. The [engine interface](https://declanrjb.github.io/college-search/) standardizes the following datasets, which are also available in tidy data form.
+UniData is a higher education data search engine developed by [Declan Bradley](https://www.declanrjb.com/). It relies on data from the [Common Dataset](https://commondataset.org/), the [U.S. Department of Education](https://nces.ed.gov/ipeds/use-the-data), and ProPublica's [nonprofit explorer](https://projects.propublica.org/nonprofits/). The [engine interface](https://declanrjb.github.io/college-search/) standardizes the following datasets, which are also available in tidy data form.
 
 UniData was presented as a talk at #NICAR26. Slides for that talk are available [here](https://docs.google.com/presentation/d/e/2PACX-1vQYDnVdDRRDW_20JoMH2YtIkL7rGsVl2hzQMaidxlMbPD2KNzcb-7rhTZjBg9tCPCe8NIX_oI2-0O-n/pub?start=false&loop=false&delayms=3000).
 
