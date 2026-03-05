@@ -54,7 +54,7 @@ Admissions summary statistics for the selected years, including raw applicant, a
 | ----- | --------- |
 | Years | 2014-2024 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy format |
+| Complete Data Available | [Tidy format](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/enrollment.csv) |
 
 Fall enrollment by number of undergraduate, graduate, and first-time students, selected years. First-time student counts are drawn from the IPEDS subset `EFALEVEL == 24`, which expands to "Full-time students, Undergraduate, Degree/certificate-seeking, First-time."
 
@@ -64,7 +64,7 @@ Fall enrollment by number of undergraduate, graduate, and first-time students, s
 | ----- | --------- |
 | Years | 2024 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy format |
+| Complete Data Available | [Tidy format](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/demographics.csv) |
 
 Fall enrollment broken down by race/ethnicity and gender, most recent year. Complete data for all years available as a tidy data file. Engine data provides these counts separately and in aggregate, original IPEDs data provides them in combination (African American Men, African American Women, etc.)
 
