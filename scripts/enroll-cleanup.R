@@ -142,12 +142,26 @@ demographics <- df |>
     by=c('demo' = 'varName')
   ) |>
   select(!demo) |>
-  rename(demo = varTitle)
+  dplyr::rename(demo = varTitle)
 
 demographics <- demographics |>
-  rename(Students = value)
+  dplyr::rename(Students = value)
 
-message(max(demographics$YEAR))
+# make tidy data
+directory <- read_csv('data/raw/ipeds/HD2024.csv')
+
+directory <- directory |>
+  select(UNITID, INSTNM) |>
+  dplyr::rename(Institution = INSTNM)
+
+demographics |>
+  left_join(directory) |>
+  select(Institution, YEAR, UNITID, demo, Students) |>
+  dplyr::rename(
+    Year = YEAR,
+    Demographic = demo
+  ) |>
+  write.csv('data/tidy/enrollment.csv', row.names=FALSE)
 
 # only focus on most recent year
 demographics <- demographics |>
