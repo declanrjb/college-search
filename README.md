@@ -76,7 +76,7 @@ Fall enrollment broken down by race/ethnicity and gender, most recent year. Comp
 | ----- | --------- |
 | Years | 2011-2023 |
 | Engine Provides | Summary data, access to documents |
-| Complete Data Available | Via [ProPublica api](https://projects.propublica.org/nonprofits/api) |
+| Complete Data Available | Via [ProPublica API](https://projects.propublica.org/nonprofits/api) |
 
 Institution revenue, expenses, financial assets, and liabilities, selected years. Original IRS 990 filings for the selected years can be accessed from the engine's summary tables.
 
@@ -86,6 +86,6 @@ Institution revenue, expenses, financial assets, and liabilities, selected years
 | ----- | --------- |
 | Years | 2023 |
 | Engine Provides | Summary data, access to documents |
-| Complete Data Available | Via [ProPublica api](https://projects.propublica.org/nonprofits/api) |
+| Complete Data Available | Via [ProPublica API](https://projects.propublica.org/nonprofits/api) |
 
 Names, positions, and compensation packages for the institution's highest paid officers and employees, most recent year. May also include trustees of the institution who do not receive direct financial compensation.
