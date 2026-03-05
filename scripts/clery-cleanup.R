@@ -155,11 +155,6 @@ df <- data_files |>
   do.call(rbind, .) |>
   unique()
 
-temp <- df
-
-# breakpoint
-df <- temp
-
 # split out bias motivation
 df <- df |> 
   mutate(
@@ -242,6 +237,7 @@ df <- df |>
   unique()
 
 df |>
+  filter(occurrences != 0) |>
   write.csv('data/tidy/hate-incidents.csv', row.names=FALSE)
 
 most_common_crimes <- df |> 
