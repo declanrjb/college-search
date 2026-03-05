@@ -238,7 +238,7 @@ df <- df |>
 
 df |>
   filter(occurrences != 0) |>
-  write.csv('data/tidy/hate-incidents.csv', row.names=FALSE)
+  write.csv('data/tidy/hate_incidents.csv', row.names=FALSE)
 
 most_common_crimes <- df |> 
   group_by(crime) |> 

@@ -34,7 +34,9 @@ Where an institution has multiple branch campuses, the engine displays statistic
 | ----- | --------- |
 | Years | 2019-2023 |
 | Engine Provides | Summary data |
-| Complete Data Available | Tidy data |
+| Complete Data Available | [Tidy data](https://raw.githubusercontent.com/declanrjb/college-search/refs/heads/main/data/tidy/hate_incidents.csv) |
+
+Note: in raw form this data is too large to store on GitHub. To save on space the tidy dataset **includes only rows where the number of incidents is not 0**. For original raw data, see the [official Clery Act database](https://ope.ed.gov/campussafety/#/).
 
 On-campus hate incidents for the selected years. Engine provides two breakdowns of the same incident counts: the first by the type of crime committed (intimidation, vandalism, assault, etc), the second by the incident motivation (race/ethnicity, national origin, sexual orientation, etc.) Both datasets are available in full as separate downloads.
 
