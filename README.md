@@ -2,6 +2,8 @@ UniData is a higher education data search engine developed by [Declan Bradley](h
 
 UniData was presented as a talk at #NICAR26. Slides for that talk are available [here](https://docs.google.com/presentation/d/e/2PACX-1vQYDnVdDRRDW_20JoMH2YtIkL7rGsVl2hzQMaidxlMbPD2KNzcb-7rhTZjBg9tCPCe8NIX_oI2-0O-n/pub?start=false&loop=false&delayms=3000).
 
+Questions, thoughts, bug reports, and dataset suggestions all welcome at [declanrjb@proton.me](mailto:declanrjb@proton.me).
+
 # Clery Data
 
 ## Campus Crime
